@@ -5,8 +5,6 @@ import fetch from 'isomorphic-fetch';
 
 
 
-
-
 //歌曲播放
 export const songPlay = (id) => {
     return {
@@ -24,41 +22,41 @@ export const songPause = (id) => {
         payload: id
     }
 }
-//循环列表
-export const songModeLoop = () => {
+//循环列表、单曲循环、随机循环
+export const songMode = () => {
     return {
-        type:"MODE",
-        state:'MODE_LOOP'
+        type:"SONG",
+        state:'MODE_CHANGE'
     }
 }
-//单曲循环
-export const songModeOne = () => {
+//更换歌单类的歌
+export const songChange = (song) => {
     return {
-        type: "MODE",
-        state: "MODE_ONE"
+        type: "SONG",
+        state: "SONG_CHANGE",
+        payload:song
     }
 }
-//随机循环
-export const songModeShuffle = () => {
+ // 更换播放列表的歌
+export const playList= (id) => {
     return {
-        type: 'MODE',
-        state: "MODE_SHUFFLE"
+        type: "SONG",
+        state: "PLAY_LIST",
+        payload: id
     }
 }
 //下一首
-export const songNext = (id) => {
+export const songNext = () => {
     return {
         type: 'SONG',
         state: "NEXT",
-        payload: id
     }
 }
 //上一首
-export const songPrevious = (id) => {
+export const songPrevious = () => {
     return {
         type: 'SONG',
         state: "PREVIOUS",
-        payload: id
     }
 }
 //展开播放列表
@@ -115,5 +113,20 @@ export const guest = () => {
     }
 }
 
+//锁定
+export const lock = () => {
+    
+    return {
+        type: "LOCK",
+        state: "LOCK"
+    }
+}
+//未锁定
+export const unlock = () => {
+    return {
+        type: "LOCK",
+        state: "UNLOCK"
+    }
+}
 
 

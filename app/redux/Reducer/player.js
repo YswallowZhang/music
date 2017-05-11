@@ -8,17 +8,19 @@ export default function player(state, action) {
             return state
         } else {
             return {
-                isplay: false
+                isplay: false,
             }
         }
     }
     let newState = Object.assign({}, state);
-    switch(aciton.state) {
+    switch(action.state) {
         case 'PLAYER_Pause': 
             newState.isplay = false;
+            console.log(false)
             return  newState
         case 'PLAYER_PLAY':
             newState.isplay = true;
+            console.log(true)
             return newState
         default: 
             return newState

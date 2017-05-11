@@ -2,8 +2,8 @@
 //Redux 提供createStore这个函数，用来生成 Store。
 
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import reducer from '../Reducer';
-import thunk from 'redux-thunk';
+import reducer from '../Reducer/index';
+import thunkMiddleware from 'redux-thunk';
 
 //创建一个 Redux store 来以存放应用中所有的 state，应用中应有且仅有一个 store。
 //applyMiddleware作用是将所有中间件组成一个数组，依次执行。
@@ -19,7 +19,7 @@ import thunk from 'redux-thunk';
 
 var store = createStore(
     combineReducers(reducer),
-    applyMiddleware(thunk)
+    applyMiddleware(thunkMiddleware)
 );
 
 export default store;

@@ -15,9 +15,8 @@ import App from "./components/App.jsx";//底部播放器
 
 
 
-
 store.subscribe(() => { //监听state变化
-    //console.log(store.getState())
+    console.log("变化" , store.getState())
 });
 
 
@@ -27,4 +26,6 @@ render(
     </Provider>,
     document.getElementById("app-root")
 );
+
+
 

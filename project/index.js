@@ -65,7 +65,7 @@
 
 	var _Store2 = _interopRequireDefault(_Store);
 
-	var _App = __webpack_require__(228);
+	var _App = __webpack_require__(230);
 
 	var _App2 = _interopRequireDefault(_App);
 
@@ -75,8 +75,9 @@
 
 
 	// import route from './router/Route'; //路由配置
-	_Store2.default.subscribe(function () {//监听state变化
-	    //console.log(store.getState())
+	_Store2.default.subscribe(function () {
+	    //监听state变化
+	    console.log("变化", _Store2.default.getState());
 	});
 	// import './Config/Config.js';//引入默认配置
 	//React-Redux 提供Provider组件，可以让容器组件拿到state。
@@ -24193,11 +24194,11 @@
 
 	var _redux = __webpack_require__(196);
 
-	var _Reducer = __webpack_require__(224);
+	var _index = __webpack_require__(224);
 
-	var _Reducer2 = _interopRequireDefault(_Reducer);
+	var _index2 = _interopRequireDefault(_index);
 
-	var _reduxThunk = __webpack_require__(227);
+	var _reduxThunk = __webpack_require__(229);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
@@ -24215,7 +24216,7 @@
 	//combineReducers方法被调用后所有的reducer返回的state有了各自独立的 part
 	//后面判断state是否存在 不存在就初始化各自部分的state 调用player reducer返回的state是this.props.player.xxx
 
-	var store = (0, _redux.createStore)((0, _redux.combineReducers)(_Reducer2.default), (0, _redux.applyMiddleware)(_reduxThunk2.default)); //Store 就是保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。
+	var store = (0, _redux.createStore)((0, _redux.combineReducers)(_index2.default), (0, _redux.applyMiddleware)(_reduxThunk2.default)); //Store 就是保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。
 	//Redux 提供createStore这个函数，用来生成 Store。
 
 	exports.default = store;
@@ -24234,12 +24235,27 @@
 
 	var _player2 = _interopRequireDefault(_player);
 
+	var _lock = __webpack_require__(226);
+
+	var _lock2 = _interopRequireDefault(_lock);
+
+	var _song = __webpack_require__(227);
+
+	var _song2 = _interopRequireDefault(_song);
+
+	var _search = __webpack_require__(228);
+
+	var _search2 = _interopRequireDefault(_search);
+
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
 	}
 
 	var reducer = {
-	    player: _player2.default
+	    player: _player2.default,
+	    lock: _lock2.default,
+	    song: _song2.default,
+	    search: _search2.default
 	};
 
 	exports.default = reducer;
@@ -24268,12 +24284,14 @@
 	        }
 	    }
 	    var newState = Object.assign({}, state);
-	    switch (aciton.state) {
+	    switch (action.state) {
 	        case 'PLAYER_Pause':
 	            newState.isplay = false;
+	            console.log(false);
 	            return newState;
 	        case 'PLAYER_PLAY':
 	            newState.isplay = true;
+	            console.log(true);
 	            return newState;
 	        default:
 	            return newState;
@@ -24281,8 +24299,242 @@
 	}
 
 /***/ }),
-/* 226 */,
+/* 226 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = lock;
+	function lock(state, action) {
+	    if (action.type != 'LOCK') {
+	        if (state) {
+	            return state;
+	        } else {
+	            return {
+	                islock: false
+	            };
+	        }
+	    }
+	    var newState = Object.assign({}, state);
+	    switch (action.state) {
+	        case 'UNLOCK':
+	            newState.islock = false;
+	            console.log(false);
+	            return newState;
+	        case 'LOCK':
+	            newState.islock = true;
+	            console.log(true);
+	            return newState;
+	        default:
+	            return newState;
+	    }
+	}
+
+/***/ }),
 /* 227 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = song;
+
+	function _toConsumableArray(arr) {
+	    if (Array.isArray(arr)) {
+	        for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+	            arr2[i] = arr[i];
+	        }return arr2;
+	    } else {
+	        return Array.from(arr);
+	    }
+	}
+
+	function song(state, action) {
+	    if (action.type != 'SONG') {
+	        if (state) {
+	            return state;
+	        } else {
+	            return {
+	                currentSongIndex: 0,
+	                songlist: [],
+	                songMode: 0
+	            };
+	        }
+	    }
+	    var newState = Object.assign({}, state);
+	    switch (action.state) {
+	        //下一首
+	        case "NEXT":
+	            if (newState.songlist == 0) {
+	                return newState;
+	            }
+
+	            if (newState.songMode == 0 || newState.songMode == 1) {
+	                if (newState.currentSongIndex == newState.songlist.length - 1) {
+	                    newState.currentSongIndex = 0;
+	                } else {
+	                    newState.currentSongIndex++;
+	                }
+	            } else {
+	                if (newState.shuffleIndex == newState.shuffleList.length - 1) {
+	                    newState.shuffleIndex = 0;
+	                } else {
+	                    newState.shuffleIndex++;
+	                }
+	                newState.currentSongIndex = newState.shuffleList[shuffleIndex];
+	            }
+	            return newState;
+	        //上一首
+	        case "PREVIOUS":
+	            if (newState.songlist.length == 0) {
+	                return newState;
+	            }
+
+	            if (newState.songMode == 0 || newState.songMode == 1) {
+	                if (newState.currentSongIndex == 0) {
+	                    newState.currentSongIndex = newState.songlist.length - 1;
+	                } else {
+	                    newState.currentSongIndex--;
+	                }
+	            } else {
+	                if (newState.shuffleIndex == 0) {
+	                    newState.shuffleIndex = newState.shuffleList.length - 1;
+	                } else {
+	                    newState.shuffleIndex--;
+	                }
+	                newState.currentSongIndex = newState.shuffleList[shuffleIndex];
+	            }
+	            return newState;
+	        //播放模式改变
+	        case "MODE_CHANGE":
+	            if (newState.songMode == 2) {
+	                newState.songMode = 0;
+	            } else {
+	                newState.songMode++;
+	            }
+
+	            if (newState.songMode == 2) {
+	                var initShuffle = []; //存放随机的位置
+	                newState.songlist.forEach(function (item, index) {
+	                    if (index == 0) {
+	                        initShuffle[index] = newState.currentSongIndex;
+	                    } else if (index == newState.currentSongIndex) {
+	                        initShuffle[index] = 0;
+	                    } else {
+	                        initShuffle[index] = index;
+	                    }
+	                });
+	                newState.shuffleIndex = 0;
+	                newState.shuffleList = makeShuffle(initShuffle, 1);
+	            }
+	            return newState;
+	        //更换播放歌曲
+	        case "SONG_CHANGE":
+	            var index = isExit(newState.songlist, action.payload);
+	            if (index != false) {
+	                newState.currentSongIndex = index;
+	            } else {
+	                newState.songlist.push(action.payload);
+	                newState.currentSongIndex = newState.songlist.length - 1;
+	            }
+	            return newState;
+	        //播放列表的歌
+	        case "PLAY_LIST":
+	            newState.currentSongIndex = action.payload; //id
+	            if (newState.songMode == 2) {
+	                var _initShuffle = []; //存放随机的位置
+	                newState.songlist.forEach(function (item, index) {
+	                    if (index == 0) {
+	                        _initShuffle[index] = newState.currentSongIndex;
+	                    } else if (index == newState.currentSongIndex) {
+	                        _initShuffle[index] = 0;
+	                    } else {
+	                        _initShuffle[index] = index;
+	                    }
+	                });
+	                newState.shuffleIndex = 0;
+	                newState.shuffleList = makeShuffle(_initShuffle, 1);
+	            }
+	            return newState;
+	        default:
+	            return newState;
+	    }
+
+	    function isExit(songlist, newsong) {
+	        songlist.forEach(function (item, index) {
+	            if (item.id == newsong.id) {
+	                return index;
+	            }
+	        });
+	        return false;
+	    }
+
+	    function makeShuffle(initShuffle, index) {
+	        var _initShuffle2;
+
+	        var newShuffle = initShuffle.slice(index, initShuffle.length - 1);
+	        initShuffle = initShuffle.slice(0, index);
+	        // trueShuffle(newShuffle).forEach(function(item, index) {
+	        //     initShuffle.push(item);
+	        // })
+	        (_initShuffle2 = initShuffle).push.apply(_initShuffle2, _toConsumableArray(trueShuffle(newShuffle)));
+	        return initShuffle;
+	    }
+	    function trueShuffle(newShuffle) {
+	        var temp = void 0,
+	            flag = void 0;
+	        newShuffle.forEach(function (item, index) {
+	            flag = Math.floor(Math.random() * (index + 1));
+	            temp = newShuffle[flag];
+	            newShuffle[flag] = newShuffle[index];
+	            newShuffle[i] = temp;
+	        });
+	        return newShuffle;
+	    }
+	}
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = search;
+	function search(state, action) {
+	    if (action.type != 'LOCK') {
+	        if (state) {
+	            return state;
+	        } else {
+	            return {
+	                islock: false
+	            };
+	        }
+	    }
+	    var newState = Object.assign({}, state);
+	    switch (action.state) {
+	        case 'UNLOCK':
+	            newState.islock = false;
+	            console.log(false);
+	            return newState;
+	        case 'LOCK':
+	            newState.islock = true;
+	            console.log(true);
+	            return newState;
+	        default:
+	            return newState;
+	    }
+	}
+
+/***/ }),
+/* 229 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -24310,7 +24562,7 @@
 	exports['default'] = thunk;
 
 /***/ }),
-/* 228 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24319,21 +24571,27 @@
 	    value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Player = __webpack_require__(229);
+	var _Player = __webpack_require__(231);
 
 	var _Player2 = _interopRequireDefault(_Player);
+
+	var _Header = __webpack_require__(242);
+
+	var _Header2 = _interopRequireDefault(_Header);
 
 	var _reactRedux = __webpack_require__(183);
 
 	var _redux = __webpack_require__(196);
 
-	var _Index = __webpack_require__(234);
+	var _Index = __webpack_require__(248);
 
 	var Actions = _interopRequireWildcard(_Index);
 
@@ -24350,7 +24608,10 @@
 	//state.xx是reducer给的,将state映射到 UI 组件的参数（props)
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
-	        player: state.player
+	        lock: state.lock,
+	        player: state.player,
+	        song: state.song,
+	        search: state.search
 	    };
 	};
 
@@ -24362,7 +24623,9 @@
 	    for (var key in Actions) {
 	        actions[key] = (0, _redux.bindActionCreators)(Actions[key], dispatch);
 	    }
-	    return actions;
+	    return {
+	        actions: actions
+	    };
 	};
 
 	//如果你用到了constructor就必须写super(),是用来初始化this的，可以绑定事件到this上;
@@ -24382,10 +24645,24 @@
 	    _createClass(App, [{
 	        key: 'render',
 	        value: function render() {
+	            var actions = this.props.actions;
+
+
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'app' },
-	                _react2.default.createElement(_Player2.default, this.props)
+	                _react2.default.createElement(_Header2.default, this.props),
+	                _react2.default.createElement(_Player2.default, _extends({}, this.props, { data: [{ "album": {
+	                            "id": "cd",
+	                            "name": "成都",
+	                            "picUrl": "./app/song/images/hehe.jpg"
+	                        },
+	                        "artists": [{ "id": 791534, "name": "赵雷", "tns": [], "alias": [] }] }, { "album": {
+	                            "id": "xx",
+	                            "name": "星星",
+	                            "picUrl": "./app/song/images/heihei.jpg"
+	                        },
+	                        "artists": [{ "id": 791534, "name": "戴荃", "tns": [], "alias": [] }] }] }))
 	            );
 	        }
 	    }]);
@@ -24396,7 +24673,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
 
 /***/ }),
-/* 229 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24411,7 +24688,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _player = __webpack_require__(230);
+	var _player = __webpack_require__(232);
 
 	var _player2 = _interopRequireDefault(_player);
 
@@ -24429,19 +24706,303 @@
 	    function Player(props) {
 	        _classCallCheck(this, Player);
 
-	        return _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
+
+	        _this.state = {
+	            currentTime: 0, //当前播放到的时间
+	            playImg: "stopInfo", //开始暂停的图片
+	            lockImg: "unlock",
+	            duration: 1, //音频长度以秒计
+	            buffered: 0, //缓冲范围
+	            source: "cd", //歌曲资源
+	            picUrl: "./app/song/images/hehe.jpg", //歌曲图片地址
+	            songName: "成都", //歌曲的名字
+	            artists: "赵雷" };
+	        return _this;
 	    }
 
 	    _createClass(Player, [{
+	        key: "componentDidMount",
+	        value: function componentDidMount() {
+	            var self = this;
+	            //正在获取媒体数据
+	            this.refs.audio.addEventListener('progress', function (e) {
+	                self.setState({
+	                    buffered: e.target.buffered.end(e.target.buffered.length - 1)
+	                });
+	            });
+	            //能够播放，播放需要缓冲
+	            this.refs.audio.addEventListener('canplay', function () {});
+	            //播放位置被改变
+	            this.refs.audio.addEventListener('timeupdate', function (e) {
+	                self.setState({
+	                    currentTime: e.target.currentTime
+	                });
+	            }, true);
+	            //播放时长被改变
+	            this.refs.audio.addEventListener('durationchange', function (e) {
+	                self.setState({
+	                    duration: e.target.duration
+	                });
+	            });
+	            //播放完毕后
+	            this.refs.audio.addEventListener('ended', function () {});
+	            //浏览器停止请求数据
+	            this.refs.audio.addEventListener('seeked', function () {});
+	            var oldx = void 0,
+	                flag = 0,
+	                oldleft = void 0,
+	                movex = void 0;
+	            this.refs.circle.addEventListener('mousedown', function (e) {
+	                flag = 1;
+	                oldx = e.clientX;
+	                oldleft = parseInt(getComputedStyle(self.refs.circle).marginLeft);
+	            });
+
+	            window.addEventListener('mousemove', function (e) {
+	                if (flag) {
+	                    movex = e.clientX;
+	                    console.log(movex);
+	                    self.refs.circle.style.marginLeft = oldleft + movex - oldx + 'px';
+	                }
+	            });
+
+	            window.addEventListener('mouseup', function () {
+	                flag = 0;
+	            });
+	        }
+	        //显示播放时间
+
+	    }, {
+	        key: "_secTotime",
+	        value: function _secTotime(sec) {
+	            var min = parseInt(sec / 60);
+	            if (min < 10) {
+	                min = '0' + min;
+	            }
+	            var second = parseInt(sec % 60);
+	            if (second < 10) {
+	                second = '0' + second;
+	            }
+
+	            return min + ':' + second;
+	        }
+	        //底部是否锁定
+
+	    }, {
+	        key: "_isLock",
+	        value: function _isLock() {
+	            if (this.props.lock.islock) {
+	                this.props.actions.unlock();
+	                this.setState({
+	                    lockImg: "unlock"
+	                });
+	            } else {
+	                this.props.actions.lock();
+	                this.setState({
+	                    lockImg: "lock"
+	                });
+	            }
+	        }
+	        //上一首
+
+	    }, {
+	        key: "_previous",
+	        value: function _previous() {
+	            this.props.actions.songPrevious();
+	        }
+	        //停止or开始
+
+	    }, {
+	        key: "_stopOrstart",
+	        value: function _stopOrstart() {
+	            if (!this.props.song.currentSongIndex && this.props.song.songlist.length > 0) {
+	                this.props.actions.playList(0);
+	            }
+	            if (this.props.player.isplay) {
+	                console.log("暂停");
+	                this.props.actions.songPause();
+	                this.setState({
+	                    playImg: "stopInfo" });
+	            } else {
+	                this.props.actions.songPlay();
+	                this.setState({
+	                    playImg: "startInfo" });
+	            }
+	        }
+	        //下一首
+
+	    }, {
+	        key: "_next",
+	        value: function _next() {
+	            this.props.actions.songNext();
+	        }
+
+	        //是否隐藏
+
+	    }, {
+	        key: "_inFooter",
+	        value: function _inFooter() {
+	            if (this.props.lock.islock) {
+	                return;
+	            } else {
+	                this.refs.player.style.bottom = "0px";
+	            }
+	        }
+	    }, {
+	        key: "_outFooter",
+	        value: function _outFooter() {
+	            if (this.props.lock.islock) {
+	                return;
+	            } else {
+	                this.refs.player.style.bottom = "-45px";
+	            }
+	        }
+	    }, {
+	        key: "_changeRule",
+	        value: function _changeRule() {
+	            this.props.actions.songMode();
+	        }
+
+	        // isObjectValueEqual(a, b) {
+	        //     if(a["album"]["id"] == b["album"]["id"]) {
+	        //         return true
+	        //     } else {
+	        //         return false
+	        //     }
+	        // }
+
+	    }, {
+	        key: "componentWillReceiveProps",
+	        value: function componentWillReceiveProps(nextProps) {
+	            var song = this.props.song;
+
+	            var nextIndex = nextProps.song.currentSongIndex;
+	            if (nextProps.lock.islock) {
+	                this.refs.player.style.bottom = "0px";
+	            }
+
+	            if (nextProps.player.isplay) {
+	                this.refs.audio.play();
+	            } else {
+	                this.refs.audio.pause();
+	            }
+	            if (nextProps.song.songlist.length > 0) {
+	                this.setState({
+	                    source: nextProps.song.songlist[nextIndex]["album"]["id"],
+	                    picUrl: nextProps.song.songlist[nextIndex]["album"]["picUrl"],
+	                    artists: nextProps.song.songlist[nextIndex]["artists"][0]["name"],
+	                    songName: nextProps.song.songlist[nextIndex]["album"]["name"]
+	                });
+	            }
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
+	            var _this2 = this;
 
+	            var self = this;
 	            return _react2.default.createElement(
 	                "div",
-	                { className: _player2.default.Player },
-	                _react2.default.createElement("div", { className: _player2.default.blank }),
-	                _react2.default.createElement("div", { className: _player2.default.lock }),
-	                _react2.default.createElement("div", { className: _player2.default.centerPlayer })
+	                { className: _player2.default.Player, ref: "player", onMouseEnter: function onMouseEnter(ev) {
+	                        return _this2._inFooter();
+	                    }, onMouseLeave: function onMouseLeave(ev) {
+	                        return _this2._outFooter();
+	                    } },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: _player2.default.lock },
+	                    _react2.default.createElement("div", { className: _player2.default.lockImage, onClick: function onClick(ev) {
+	                            return _this2._isLock();
+	                        }, "data-action": this.state.lockImg })
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: _player2.default.blank },
+	                    _react2.default.createElement("audio", { ref: "audio", src: 'app/song/' + this.state.source + '.mp3', controls: "controls", className: _player2.default.audio })
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: _player2.default.centerPlayer },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: _player2.default.buttons },
+	                        _react2.default.createElement("a", { className: _player2.default.previous, onClick: function onClick(ev) {
+	                                return _this2._previous(ev);
+	                            } }),
+	                        _react2.default.createElement("a", { className: _player2.default.startOrstop, onClick: function onClick(ev) {
+	                                return _this2._stopOrstart(ev);
+	                            }, "data-action": this.state.playImg }),
+	                        _react2.default.createElement("a", { className: _player2.default.next, onClick: function onClick(ev) {
+	                                return _this2._next(ev);
+	                            } })
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: _player2.default.songHead },
+	                        _react2.default.createElement("img", { src: this.state.picUrl, className: _player2.default.picUrl })
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: _player2.default.player },
+	                        _react2.default.createElement(
+	                            "div",
+	                            null,
+	                            _react2.default.createElement(
+	                                "a",
+	                                { href: "##", className: _player2.default.songName },
+	                                this.state.songName
+	                            ),
+	                            _react2.default.createElement(
+	                                "a",
+	                                { href: "##", className: _player2.default.artists },
+	                                this.state.artists
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: _player2.default.progress },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: _player2.default.barBox },
+	                                _react2.default.createElement("div", { className: _player2.default.buffer,
+	                                    style: {
+	                                        width: String(this.state.buffered / this.state.duration * 100) + '%'
+	                                    }
+	                                }),
+	                                _react2.default.createElement("div", { className: _player2.default.bar,
+	                                    style: {
+	                                        width: String(this.state.currentTime / this.state.duration * 100) + '%'
+	                                    }
+	                                }),
+	                                _react2.default.createElement("img", { src: "./app/components/common/images/circle.png", alt: "", className: _player2.default.circle, style: { left: String(this.state.currentTime / this.state.duration * 100) + '%' }, ref: "circle" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: _player2.default.time },
+	                                _react2.default.createElement(
+	                                    "i",
+	                                    { className: _player2.default.curtime },
+	                                    this._secTotime(this.state.currentTime)
+	                                ),
+	                                _react2.default.createElement(
+	                                    "i",
+	                                    { className: _player2.default.alltime },
+	                                    " / ",
+	                                    this._secTotime(this.state.duration)
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement("div", { className: _player2.default.addAndshare }),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: _player2.default.changeCloud },
+	                        _react2.default.createElement("a", { className: _player2.default.playrule, onClick: function onClick(ev) {
+	                                return _this2._changeRule();
+	                            } })
+	                    )
+	                )
 	            );
 	        }
 	    }]);
@@ -24452,16 +25013,16 @@
 	exports.default = Player;
 
 /***/ }),
-/* 230 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(231);
+	var content = __webpack_require__(233);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(233)(content, {});
+	var update = __webpack_require__(241)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -24478,23 +25039,44 @@
 	}
 
 /***/ }),
-/* 231 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(232)();
+	exports = module.exports = __webpack_require__(234)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "._9d502tJAT5tO1qT_9zNHd {\n    width:100%;\n    margin : 0 auto;\n    height: 59px;\n    background-color: red\n}", ""]);
+	exports.push([module.id, "body {\n    margin: 0 auto;\n    font-size: 12px;\n}\na {\n    text-decoration: none; \n}\ni {\n    font-style:normal;\n}\n._9d502tJAT5tO1qT_9zNHd {\n    width:100%;\n    margin : 0 auto;\n    height: 49px;\n    background-color:rgba(0,0,0,0.8);\n    position:absolute;\n    bottom: 0px;\n    transition: all 0.5s ease 0.2s;\n}\n._3t_BtBthhxvAzjCDaGQtoL {\n    width:100%;\n    height: 20px;\n    /*background-color:blue;*/\n    top: -20px;\n    position: absolute;\n    cursor: pointer\n}\n._2n_6nuzx9to-IgoGS3Xid3 {\n    z-index: 11;\n    width:100%;\n    position: relative;\n    top: -7px;\n}\n._3N_JPZ7IKBIIQ-5jX0x88c {\n    width:20px;\n    height: 20px;\n    position: absolute;\n    right: 35px;\n    top:-10px;\n    cursor: pointer;\n}\n[data-action=\"lock\"] {\n     background: url(" + __webpack_require__(235) + ") no-repeat;\n}\n[data-action=\"unlock\"] {\n     background: url(" + __webpack_require__(236) + ") no-repeat;\n}\n._2yPTHgiJTD1IV3fi6rIhri {\n    position: relative;\n    width:980px;\n    height: 47px;\n    margin:0 auto;\n    overflow: hidden;\n}\n\n._38FJmjTiKZj9N51xDnpX8K {\n    padding:6px;\n    float: left\n}\n.R_6wP4ZadG9BVkHeqVASX {\n    background: url(" + __webpack_require__(237) + ") no-repeat;\n    width:28px;\n    height: 28px;\n    background-size: 28px 28px;\n    display: block;\n    float: left;\n    margin-top:4px;\n}\n._1fHJIRrOUPlgZiOnOPOVA- {\n    background: url(" + __webpack_require__(238) + ") no-repeat;\n    width:28px;\n    height: 28px;\n    background-size: 28px 28px;\n    display: block;\n    float: left;\n    margin-top:4px;\n}\n._1GCcTktxzAoYLwVdh9VBGz {\n    width:36px;\n    height: 36px;\n    background-size: 36px 36px;\n    margin-left: 10px;\n    margin-right: 10px;\n    display: block;\n    float: left\n\n}\n[data-action=\"startInfo\"] {\n    background: url(" + __webpack_require__(239) + ") no-repeat;\n}\n[data-action=\"stopInfo\"] {\n    background: url(" + __webpack_require__(240) + ") no-repeat;\n}\n.V_0jzf0MTTe8uiaeXM78D {\n    width:34px;\n    height: 34px;\n    float: left;\n    margin-left: 20px;\n    margin-right: 15px;\n    margin-top: 6px;\n}\n._1k6co9U89UeZ9WpFUS4PcT {\n    width:34px;\n    height: 34px;\n    border-radius: 3px;\n}\n._13xz4IOACu3ZXfyooErin9 {\n    float: left\n}\n.m6gsS_vXNaB3IOhWqqL6C {\n    width:608px;\n    height: 37px;\n    float: left;\n    position: relative;\n}\n._2loCP5pzCogh9ktmP0lwN0 {\n    color:#e8e8e8;\n    line-height: 28px;\n}\n.DEEgpzYzK3IBTtObZVBdP {\n    color:#9b9b9b;\n    line-height: 28px;\n    margin-left: 15px;\n    text-shadow: 0 1px 0 #171717;\n}\n._2_qq_OSkBeYdoBVVGzxQXz {\n    width:493px;\n    height: 9px;\n    background-color: #191919;\n    border-radius: 8px;\n    position: relative;\n    /*overflow: hidden;*/\n    float: left;\n}\n.cR7Xrmfx8eKsRwRJXv1g7 {\n    height: 9px;\n    border-radius: 10px;\n    position: absolute;\n    background-color: #c70c0c;\n}\n._2ynkgcXhwCezyGvz9EhkcQ {\n    background-color: #5c5c5c;\n    height: 9px;\n    border-radius: 10px;\n    position: absolute;\n}\n._3hKnJvc11Gcuyyfu5N8hC1 {\n    color:#a1a1a1;\n}\n._2jO8sAU3b3BUJmtW3ob5OU {\n    text-shadow: 0 1px 0 #121212;\n    float: left;\n    margin-left: 10px;\n}\n._3VLmcMZ3WzjhKqpdqWDewI {\n    color:#797979;\n    \n}\n._1N8naDIHtpsJJdKbT_-KRG {\n    width:18px;\n    height: 18px;\n    position: absolute;\n    top:-5px;\n}", ""]);
 
 	// exports
 	exports.locals = {
-		"Player": "_9d502tJAT5tO1qT_9zNHd"
+		"Player": "_9d502tJAT5tO1qT_9zNHd",
+		"blank": "_3t_BtBthhxvAzjCDaGQtoL",
+		"lock": "_2n_6nuzx9to-IgoGS3Xid3",
+		"lockImage": "_3N_JPZ7IKBIIQ-5jX0x88c",
+		"centerPlayer": "_2yPTHgiJTD1IV3fi6rIhri",
+		"buttons": "_38FJmjTiKZj9N51xDnpX8K",
+		"previous": "R_6wP4ZadG9BVkHeqVASX",
+		"next": "_1fHJIRrOUPlgZiOnOPOVA-",
+		"startOrstop": "_1GCcTktxzAoYLwVdh9VBGz",
+		"songHead": "V_0jzf0MTTe8uiaeXM78D",
+		"picUrl": "_1k6co9U89UeZ9WpFUS4PcT",
+		"audio": "_13xz4IOACu3ZXfyooErin9",
+		"player": "m6gsS_vXNaB3IOhWqqL6C",
+		"songName": "_2loCP5pzCogh9ktmP0lwN0",
+		"artists": "DEEgpzYzK3IBTtObZVBdP",
+		"barBox": "_2_qq_OSkBeYdoBVVGzxQXz",
+		"bar": "cR7Xrmfx8eKsRwRJXv1g7",
+		"buffer": "_2ynkgcXhwCezyGvz9EhkcQ",
+		"curtime": "_3hKnJvc11Gcuyyfu5N8hC1",
+		"time": "_2jO8sAU3b3BUJmtW3ob5OU",
+		"alltime": "_3VLmcMZ3WzjhKqpdqWDewI",
+		"circle": "_1N8naDIHtpsJJdKbT_-KRG"
 	};
 
 /***/ }),
-/* 232 */
+/* 234 */
 /***/ (function(module, exports) {
 
 	/*
@@ -24550,7 +25132,43 @@
 
 
 /***/ }),
-/* 233 */
+/* 235 */
+/***/ (function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABL0lEQVQ4T9WU4VHDMAyFJXsAYAM2wMgD0G7QbFAmoZ2AEWCDZgPCANaZDdgAGMARpxzuuakhKfzCd/njSF9svfeCUFnOuXNjzD0iOgDQR1cUka7v+22M8X3chjUQEUVEvKq9U2AI4XoSRERrRHwQkZe+71cxxldtcs5dGmNa/YCI3DLzYwk7OhERbRDxDgCaEEJbFnvvVwCwE5EtM29mgVJKyxhjVxY75xbW2qd/BlLJrbU7AFh8o9Z4u0spNdkK+2FntWZChrJSvRKU1TpgqQ10o+arcug/ghTCzIOzayadDSpd/FeQHqb5uqsKMb723piTM0opXWi3tfbt1yAReWbmwQ5E1CHiTQk7ZUbal2Ny5K8qKAfyFB+VwT5Iv/defw2a8LMJ4AcAtCGEda77BG1c1hMRr5G3AAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABK0lEQVQ4T7WU31HDMAzGJWuAdhNce4FuAExQ2IANyAjljncYIZ0AMoAd885DN+AYwBKnXnJncm2T8McvfpD8s/R9shG6Za1dIuKFMcYyc2rbtuljU3bUJO/9lYg8IeKyOJRyztcppf0kkLXWElELAJ8iUmk1RHQDABsASCGE1SSQ974GgMuc8yqllPpDzrkKEe9F5DbG+DwGQ+eclr6PMa7LZNWMiD5E5CHGeDcK8t6LiDRDUKfdydgQjH8Gcs69qqhl+WoAIi6MMVtmfgeAx3Oticjbwf6BNr2LY7KU8d0x0JqIXuZQVOM5oJ2I1Ii4BYBFedEsUAjhcGk/Xz8G6WAyc921bX8Dapi5OqbfrNZ0RABAn4pq9G3NBZ008n9BnTP6SMu/6exYqQlfnzK6bI5IkcIAAAAASUVORK5CYII="
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAACjklEQVRIS62WjVEUQRCFX0cgRnAQgRCBEIEQARABGIEQARiBGIEQARCBEAEQgRpBW99ezzL7M3uzVzdVFNyxO69/3nvdporj7luSvkjal7Tde+VV0oOkOzP7u+o6m3rA3QH4FkA8+iyJSwHhAE4wn+IzwJdmxu/RMwoYGV1JOpH0Jula0q2ZJaDOZe4O8KGkc0kLSTeSvo5lPAB0911JPyTtAGRmF6vKlP4fgQLKz4ukUzN7yt/vAAbYvaR/RNx/eAYwQVNWl3SQ39MCRnSAfZS0W0OAFf2nt7SATAFtCJUD3gY59tfNrB9AVIxM6T98WAIGG8mORkOQWScu3jYzgu4TCg7AdLJ8SIBEwQt9jTUvuzusg0AdAmTB/kIeZjZGQkrLey9mdmBBaepczM7daT766jDW3WEj8mnOGGAElZ7bAfD9Q1lnA8DI+ljSzzCDswlAKreUibtTd8oJlUdPnmHGZp5vquLuTZ9KgJEljH0CsLEhM8PGJgFhmyT6hXROEkkqAZc47g4ytKW0U4CP4ZlYHWAtgSoBCXYxBxDjxqQBaoUc5aop6bJ1a5R0YFmVGbYl5Y8PZra3qofIImREtGSLOd9UArakmS2LYCqOhCwwBfpaZGlH6xsSPsY86jQD4ccXlHVhZszAwQmtXhSsjcFLlrSlZG2/qQLS26R5M2UGxp/62zHvLEuI0BmYJSLVfJ8N9OdkLP0BDJP+SNrb0ADGP9ke2oE+tmLQT0CP1h3EWWbc3xnopSUqiRuifK8pX3omenYWw32wPUytiYj7c+wlkIFFd2pNZFFG04wifJclbLAY1yzCUJ5dk4OPckkybkYUEz2NNvz2fPYi3C9htuiiOU4CSMBUo7go5/f9B1GXm52Q2rGxAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAACR0lEQVRIS72W4VEVQRCEuyNQI1AjECMQI1AjUDKACMQIxAiEDB4RiBEIEagRCBGs9Z2zV/v2dt/dPSj3BwXs7fRMz0zPWP/5eC1eSulA0qN4d2f7eo2NWcCU0mNJ7yUdSnrbMb6RdCXpwvbtLgd2AqaUPkj6LAlQzqWkOiIifhP3vySd2r7ogTYBI6qvEdGdpGNJm5738T3RnwXd55JOWt9PAOPxN0l4jqfHczTlaOItoKQAJl7Xb1uA5AOKyAeUrj4pJSIE9Nz2UWlgCzByBpV7gxXRZtAj2/w+nBEw6PgZ/3uWqcCJ8kEr3JQSFZok3dgm3wp7FNEfSS+zvRKQD6nILY/CGH33zjYGJielBBjnu23aZzgFYxQQud2KMOfuSZnoAHwlif7CGb7bOjsAaScivLQ99HAZIV6OF4WX0AVgPme2T0rEHmBEOQRie8AafoRc/ZD0yfZpZawG5JqSHymeAcTex8jjdQaEd3pvKSCgI8ULAenJq/sAokBU8GYfQFRlDaU3yF6u2oWAtMY/SiOPS4vmS+616u2kLbpFU15I6rXFSOFDtcWuxqefRgpXAE5s1tJGuaMqz/eQtqFdKmlDKmHmYCJtlRRNVL6Oau7vYmK0xbsogCxxe4MWYJOp0xvAqMsL5llvcrcijAnBAGCO0jqHswM4qKVI8uRGUUg+OttckIpFCxnjbXdTWLJEYeRpRATdrSUqb3O/Y4kaB27NxNI1EYrQ27yd1XbY5nCmu2jlB7OAjZ5DBvPaePvgi/Bc+a+9/wsED3csfFqNmQAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 239 */
+/***/ (function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACsUlEQVRYR82YjVHUYBCG361AqUQ7UCpQOoAKgAqECsQKxAqECuQqECoRKljnCftl9pJL8oULQ3bmJndzyeb99ufdH9NMcff3kr5I+iqJ73w+hpp7SY/xuZF0a2b8rharvdPdAXAq6XPtM3EfwH6ZGddJmQTk7gD41gHyJOlOUrEIVwRLFYvx3LuEgPsvzYzroIwCcvfvks7S07eSrmtPG1Y9DhcXNVdmdj6EaCegiJPfySobSRdTpxt6SVj5QtKn5MaTXfHVAxRg/qRAxcwo21vcHT24H8HNh11QuwABBv8TJ2dmdr03kqTA3XHhVcTXjZkdZf1bgNydG8kkBJMuCqa8OED9jN8/zKyN0xZQ+BnrIIu5aSSusvtwXZN9GVBx1cbM5nLNi7zq7oAg0O/M7LAFFOlJViEt2he9ZcZDHa80720s5O6wKOUAqoeRRyVi7UMw8Facxald0rmZFcIc1Jes1LzbIs3/xRNHNaSXlPRizd0BU23pjncOAEQaEvFPZgbtT8qSgMJDFGDKzAmAZrkrFJRg3NtCvZAZO+1Iyi4NqFDABgv9jTJBEEKMk/IKLoMYKeT3AJoVhK/kMnivIeVVAoIr4JQ1uOwBCw0G6FsF9erSvhDjo5kdTKbYc6lZOu2pFJByQ4x8WU/p6DBlr4PbZbElLeTupe15Lq4BiAq/nvajQ3Zts1QTT/vck6zTNoVv2cLm/r3fwoaV1tPkF9OngKVHgb0XnTyi/6KQkt29DnVoUIRnKCcIE+vlPrGSDptH8wfmv8lBMVwHehi8jL5Vi4KRUtNdWLAjOK4apbPSzuDIXwBjWYDCSXF3Bgd6nTxWbQ2GXSW165i8KEAH8VWzjsk9etXCYhJQ8j/k2V2tTFqJwA2rju6FiqJqQAkYpwZcXumVBCBQ80qPUjRrpfcf7RTwbayV4j8AAAAASUVORK5CYII="
+
+/***/ }),
+/* 240 */
+/***/ (function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAADR0lEQVRYR7WYj1EVMRCHdysQKpBXgViBWIFQgViBWoFQgVqBUoFQgVCBUoFQgVjBz/nOzU1e3rtLcj4y8+YY5pJ8+e2f7J7bgiHpwMyemtlRTN8zs4f4+6eZ3bs7z+7hrTMC4pWZnZrZYcO8OzO7NrMLd+fZNKpAkjj9WzM7y1b8E5slFXiiGu/yOw4F0xSAzlvAZoEkocbH2ITFL8zs0t0va8cNRQF7l8F9NbP37p7Mu7HMJJAkQFiMccXf7o4ZukYozDr8npgZap5MrbUVSNK3kB3TAMLJ/msEGKZ7FgHwcpvjbwBJ+hKOC8zR0mjZRh9Qn8zsdUCtSvOtAUlCVky1c5gcUBI+SMRiPpQafWoECif8FRN5qTlUe21ZmI/oGyM4B/oeiW7thd7NWt8vBMB0Q8AMQJLIuABhqoO5sCyk32t9d8KnCBb8ieRJihmBkk3JEThd05CEid8sNW+YDmVIB4NKHv/8HQT7PSeWpJh35u7nTacoXpKUVBrEAAipCPUrdyezNo8MiDkEAWp1JU9J7EneG/YHKBGyWFcCLICAInxZp3q1pFPnFnKGJE72IvJBV6hvAUr74IdE6+SdVQRHYlgB9CPKiTH0Wm02A8QSJD3UqtZFa6KkRVGrFSSTOzn11FQUwuE/z62duc0JCg2LPhIQS1cTbQmEpNzAXSEfCXVOIZLscUuOKk32GE5N/XS6wKmfY7KUpXcR9gjXle1zpVPY7yox3oYq1agqQj4lxlt3P8yvjgd33++JtCzsqbWpLJvyTgG0fnWEZMmPuswmCQB8pTkzFzB0KFzQPP9drgGUZLtz91WrStQ0vXdXAURh9sHMbtx9aDrzAi2pVM0brcCVZEgfxy0xqlMCpSINM2ztCHYBkmX5dGWNxdkaUJiOS5EuFaiNjmBXQFlnQ2TS2WwW+Rl53hFMNnRL4Wpt1ra+DJtWG7peoKh7KMRwjclrZapzBSo1dOzdVd+UsJIo5IkoHHm256t9bEhhyR7YGTCcsFqmhiI0gzSf6fPNTVy4/R8bMp/iVIBxyjQAwtdYOK8y2Rh1eeb1+X1k8moCbS7Kondjk/Lbz5w7cevz+aa5Vm8GKjJsrgAK8mMktbhgr5fcbX8BTbHAkka5Q4oAAAAASUVORK5CYII="
+
+/***/ }),
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -24802,7 +25420,7 @@
 
 
 /***/ }),
-/* 234 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24810,9 +25428,262 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.guest = exports.loggedFail = exports.loggedIn = exports.loggingIn = exports.controlVolume = exports.closePlayList = exports.showPlayList = exports.songPrevious = exports.songNext = exports.songModeShuffle = exports.songModeOne = exports.songModeLoop = exports.songPause = exports.songPlay = undefined;
 
-	var _isomorphicFetch = __webpack_require__(235);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Search = __webpack_require__(243);
+
+	var _Search2 = _interopRequireDefault(_Search);
+
+	var _header = __webpack_require__(246);
+
+	var _header2 = _interopRequireDefault(_header);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Header = function (_Component) {
+	    _inherits(Header, _Component);
+
+	    function Header(props) {
+	        _classCallCheck(this, Header);
+
+	        return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+	    }
+
+	    _createClass(Header, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: _header2.default.header },
+	                _react2.default.createElement(
+	                    'ul',
+	                    { className: _header2.default.nav },
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: _header2.default.list + ' ' + _header2.default.list4 },
+	                        _react2.default.createElement(
+	                            'a',
+	                            null,
+	                            '\u53D1\u73B0\u97F3\u4E50'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: _header2.default.list + ' ' + _header2.default.list4 },
+	                        _react2.default.createElement(
+	                            'a',
+	                            null,
+	                            '\u6211\u7684\u97F3\u4E50'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: _header2.default.list + ' ' + _header2.default.list2 },
+	                        _react2.default.createElement(
+	                            'a',
+	                            null,
+	                            '\u670B\u53CB'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: _header2.default.list + ' ' + _header2.default.list2 },
+	                        _react2.default.createElement(
+	                            'a',
+	                            null,
+	                            '\u5546\u57CE'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: _header2.default.list + ' ' + _header2.default.list3 },
+	                        _react2.default.createElement(
+	                            'a',
+	                            null,
+	                            '\u97F3\u4E50\u4EBA'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: _header2.default.list },
+	                        _react2.default.createElement(
+	                            'a',
+	                            null,
+	                            '\u4E0B\u8F7D\u5BA2\u6237\u7AEF'
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(_Search2.default, null)
+	            );
+	        }
+	    }]);
+
+	    return Header;
+	}(_react.Component);
+
+	exports.default = Header;
+
+/***/ }),
+/* 243 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _search = __webpack_require__(244);
+
+	var _search2 = _interopRequireDefault(_search);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Search = function (_Component) {
+	    _inherits(Search, _Component);
+
+	    function Search(props) {
+	        _classCallCheck(this, Search);
+
+	        return _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+	    }
+
+	    _createClass(Search, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement('div', { className: _search2.default.searchBox });
+	        }
+	    }]);
+
+	    return Search;
+	}(_react.Component);
+
+	exports.default = Search;
+
+/***/ }),
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(245);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(241)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules!./search.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js?modules!./search.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(234)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "._2A7WUEeo81EGFDsyk7-z7l {\n    width:210px;\n    height: 31px;\n    border-radius: 13px;\n    float: left;\n    background-color: #fff;\n    margin-top: 20px;\n}", ""]);
+
+	// exports
+	exports.locals = {
+		"searchBox": "_2A7WUEeo81EGFDsyk7-z7l"
+	};
+
+/***/ }),
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(247);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(241)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules!./header.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js?modules!./header.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(234)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "._2kTY9ogUjy78Wsf5cJlZOg {\n    width:100%;\n    height: 70px;\n    background-color: #353535;\n}\nul, li{\n    margin: 0;\n    padding: 0;\n}\nli {\n    list-style: none;\n}\n._2-lhtUZ3o-9iZgDneaMvlj {\n    height: 70px;\n    width:540px;\n    display: flex;\n    float: left;\n}\n._1YkTNGIMQV56WbfftTlVO6 {\n    float:left;\n    text-align: center;\n    height: 70px;\n    line-height: 70px;\n    flex:1;\n    color:#ccc;\n    font-size: 14px;\n}\n._1ztyPp35OXRq8DzApZWywQ {\n    flex:0 0 17.8%;\n}\n._1L-3Zj1j5ih20Lh_-zIDNT {\n    flex:0 0 12.5%;\n}\n._3QKOj9weIY3E6YrgJ0gZf {\n    flex:0 0 15.2%;\n}", ""]);
+
+	// exports
+	exports.locals = {
+		"header": "_2kTY9ogUjy78Wsf5cJlZOg",
+		"nav": "_2-lhtUZ3o-9iZgDneaMvlj",
+		"list": "_1YkTNGIMQV56WbfftTlVO6",
+		"list4": "_1ztyPp35OXRq8DzApZWywQ",
+		"list2": "_1L-3Zj1j5ih20Lh_-zIDNT",
+		"list3": "_3QKOj9weIY3E6YrgJ0gZf"
+	};
+
+/***/ }),
+/* 248 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.unlock = exports.lock = exports.guest = exports.loggedFail = exports.loggedIn = exports.loggingIn = exports.controlVolume = exports.closePlayList = exports.showPlayList = exports.songPrevious = exports.songNext = exports.playList = exports.songChange = exports.songMode = exports.songPause = exports.songPlay = undefined;
+
+	var _isomorphicFetch = __webpack_require__(249);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -24838,41 +25709,41 @@
 	        payload: id
 	    };
 	};
-	//循环列表
-	var songModeLoop = exports.songModeLoop = function songModeLoop() {
+	//循环列表、单曲循环、随机循环
+	var songMode = exports.songMode = function songMode() {
 	    return {
-	        type: "MODE",
-	        state: 'MODE_LOOP'
+	        type: "SONG",
+	        state: 'MODE_CHANGE'
 	    };
 	};
-	//单曲循环
-	var songModeOne = exports.songModeOne = function songModeOne() {
+	//更换歌单类的歌
+	var songChange = exports.songChange = function songChange(song) {
 	    return {
-	        type: "MODE",
-	        state: "MODE_ONE"
+	        type: "SONG",
+	        state: "SONG_CHANGE",
+	        payload: song
 	    };
 	};
-	//随机循环
-	var songModeShuffle = exports.songModeShuffle = function songModeShuffle() {
+	// 更换播放列表的歌
+	var playList = exports.playList = function playList(id) {
 	    return {
-	        type: 'MODE',
-	        state: "MODE_SHUFFLE"
+	        type: "SONG",
+	        state: "PLAY_LIST",
+	        payload: id
 	    };
 	};
 	//下一首
-	var songNext = exports.songNext = function songNext(id) {
+	var songNext = exports.songNext = function songNext() {
 	    return {
 	        type: 'SONG',
-	        state: "NEXT",
-	        payload: id
+	        state: "NEXT"
 	    };
 	};
 	//上一首
-	var songPrevious = exports.songPrevious = function songPrevious(id) {
+	var songPrevious = exports.songPrevious = function songPrevious() {
 	    return {
 	        type: 'SONG',
-	        state: "PREVIOUS",
-	        payload: id
+	        state: "PREVIOUS"
 	    };
 	};
 	//展开播放列表
@@ -24929,20 +25800,36 @@
 	    };
 	};
 
+	//锁定
+	var lock = exports.lock = function lock() {
+
+	    return {
+	        type: "LOCK",
+	        state: "LOCK"
+	    };
+	};
+	//未锁定
+	var unlock = exports.unlock = function unlock() {
+	    return {
+	        type: "LOCK",
+	        state: "UNLOCK"
+	    };
+	};
+
 /***/ }),
-/* 235 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(236);
+	__webpack_require__(250);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 236 */
+/* 250 */
 /***/ (function(module, exports) {
 
 	(function(self) {

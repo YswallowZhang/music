@@ -1,0 +1,8 @@
+.searchBox {
+    width:210px;
+    height: 31px;
+    border-radius: 13px;
+    float: left;
+    background-color: #fff;
+    margin-top: 20px;
+}
