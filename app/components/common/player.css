@@ -105,7 +105,8 @@ i {
     border-radius: 3px;
 }
 .audio {
-    float: left
+    float: left;
+    display: none
 }
 .player {
     width:608px;
@@ -131,6 +132,7 @@ i {
     position: relative;
     /*overflow: hidden;*/
     float: left;
+
 }
 .bar {
     height: 9px;
@@ -161,4 +163,5 @@ i {
     height: 18px;
     position: absolute;
     top:-5px;
+    cursor: pointer;
 }

@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react';
-
+import {is, fromJS} from 'immutable'
 import styles from "./player.css";
 
 export default class Player extends Component {
     constructor(props) {
         super(props);
-        
+        this.autoplay = false;
         this.state = {
             currentTime: 0,//当前播放到的时间
             playImg: "stopInfo",//开始暂停的图片
@@ -28,13 +28,20 @@ export default class Player extends Component {
         })
         //能够播放，播放需要缓冲
         this.refs.audio.addEventListener('canplay', function() {
-
+            // console.log("auto1", this.autoplay)
+            if(this.autoplay) {
+                self.props.actions.songPlay();
+                console.log("auto2", this.autoplay)
+                this.autoplay = false;
+            }
         })
         //播放位置被改变
         this.refs.audio.addEventListener('timeupdate', function(e) {
-            self.setState({
+            if(flag == 0) {
+                self.setState({
                 currentTime: e.target.currentTime
             });
+            }
         }, true)
         //播放时长被改变
         this.refs.audio.addEventListener('durationchange', function(e) {
@@ -44,29 +51,40 @@ export default class Player extends Component {
         })
         //播放完毕后
         this.refs.audio.addEventListener('ended', function() {
-            
+            self.props.actions.songNext();
+            self.props.actions.songPause();
+
         })
         //浏览器停止请求数据
         this.refs.audio.addEventListener('seeked', function() {
 
         })
-        let oldx, flag = 0, oldleft, movex;
+        let oldx, flag = 0, oldleft, movex, max = 493;
         this.refs.circle.addEventListener('mousedown', function(e) {
+            event.preventDefault();
             flag = 1;
             oldx = e.clientX;
-            oldleft = parseInt(getComputedStyle(self.refs.circle).marginLeft);      
+            oldleft = parseInt(getComputedStyle(self.refs.circle).left);      
         })
 
-        window.addEventListener('mousemove', function(e) {
+        self.refs.player.addEventListener('mousemove', function(e) {
             if(flag) {
                 movex = e.clientX;
-                console.log(movex)
-                self.refs.circle.style.marginLeft = oldleft + movex - oldx + 'px';
+                let left = movex - oldx;
+                if(oldleft + left <= max && oldleft + left >= 0) {
+                    self.refs.circle.style.left  = oldleft + left + 'px'
+                    self.setState({
+                        currentTime: (oldleft + left) / max * self.state.duration
+                    }) 
+                } 
             }
         })
 
-        window.addEventListener('mouseup', function() {
-            flag = 0
+        document.body.addEventListener('mouseup', function() {
+            if(flag == 1) {
+                self.refs.audio.currentTime = self.state.currentTime;
+                flag = 0;
+            }
         })
     }
     //显示播放时间
@@ -108,14 +126,8 @@ export default class Player extends Component {
         if(this.props.player.isplay) {
             console.log("暂停", )
             this.props.actions.songPause();
-            this.setState({
-                playImg: "stopInfo",//暂停的图片    
-            })
         } else {
             this.props.actions.songPlay();
-            this.setState({
-                playImg: "startInfo",//开始的图片    
-            })
         }
     }
     //下一首
@@ -145,42 +157,61 @@ export default class Player extends Component {
     }
 
     // isObjectValueEqual(a, b) {
+    //     console.log(a["album"]["id"], b["album"]["id"]);
     //     if(a["album"]["id"] == b["album"]["id"]) {
+    //         console.log("id", true)
     //         return true
     //     } else {
+    //         console.log("id", false)
     //         return false
     //     }
     // }
     componentWillReceiveProps(nextProps) {
+       
         const {song} = this.props;
         const nextIndex = nextProps.song.currentSongIndex;
+        console.log(nextProps.song, this.props.song)
         if(nextProps.lock.islock) {
             this.refs.player.style.bottom = "0px"
         }
         
         if(nextProps.player.isplay) {
             this.refs.audio.play();
+            this.setState({
+                playImg: "startInfo",//开始的图片    
+            })
+             
         } else {
             this.refs.audio.pause();
+            this.setState({
+                playImg: "stopInfo",//暂停的图片    
+            })
         }
-        if(nextProps.song.songlist.length > 0) {
+        if(nextProps.song.songlist.length > 0 && !is(fromJS(nextProps.song.songlist), fromJS(song.songlist))) {
             this.setState({
                 source: nextProps.song.songlist[nextIndex]["album"]["id"],
                 picUrl:nextProps.song.songlist[nextIndex]["album"]["picUrl"],
                 artists: nextProps.song.songlist[nextIndex]["artists"][0]["name"],
                 songName: nextProps.song.songlist[nextIndex]["album"]["name"],
+                currentTime:0
             })
-        }
+        }    
+    }
+    // shouldComponentUpdate(nextProps, nextState) {
+        
+    // }
+    
+    componentDidUpdate(props, state) {
+        
         
     }
-    
     render() {
         const self = this;
         return (
             <div className={styles.Player} ref="player" onMouseEnter={ev => this._inFooter()} onMouseLeave={ ev => this._outFooter()}> 
-                {/*{this.props.data.map(function(item, index) {
+                {this.props.data.map(function(item, index) {
                     return <a key={index} onClick={ev => self.props.actions.songChange(item)}>{item["album"]["id"]}</a>
-                })}*/}
+                })}
                 <div className={styles.lock} >
                     <div className={styles.lockImage} onClick={ ev => this._isLock()} data-action={this.state.lockImg}></div>
                 </div>
@@ -215,7 +246,7 @@ export default class Player extends Component {
                                     width: String(this.state.currentTime / this.state.duration * 100) + '%'
                                 }}
                                 ></div>
-                                <img src="./app/components/common/images/circle.png" alt="" className={styles.circle} style={{left: String(this.state.currentTime / this.state.duration * 100) + '%'}} ref="circle" />
+                                <img src="./app/components/common/images/circle.png" alt="" className={styles.circle} style={{left: String(this.state.currentTime / this.state.duration * 100)+ '%'}} ref="circle" />
                             </div>
                             <span className={styles.time}><i className={styles.curtime}>{this._secTotime(this.state.currentTime)}</i><i className={styles.alltime}> / {this._secTotime(this.state.duration)}</i></span>
                         </div>

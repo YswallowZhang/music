@@ -5,4 +5,19 @@
     float: left;
     background-color: #fff;
     margin-top: 20px;
+
+}
+.search {
+    background: url('./images/search.png') no-repeat;
+    margin-top: 7px;
+    display: inline-block;
+    color: #333;
+    background-position: 10px;
+}
+.content {
+    outline: none;
+    border: none;
+    width:159px;
+    margin-left: 33px;
+    
 }

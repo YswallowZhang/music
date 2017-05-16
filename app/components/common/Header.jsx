@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { is, fromJS} from 'immutable';
 import Search from './Search.jsx';
 import styles from './header.css';
 

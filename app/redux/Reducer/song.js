@@ -81,9 +81,12 @@ export default function song(state, action) {
         //更换播放歌曲
         case "SONG_CHANGE" :
             let index = isExit(newState.songlist, action.payload);
-            if(index != false) {
+            console.log("index", index)
+            if(index !== false) {
+                console.log("nopush")
                 newState.currentSongIndex = index;
             } else {
+                console.log("pushle")
                 newState.songlist.push(action.payload);
                 newState.currentSongIndex = newState.songlist.length - 1;
             }
@@ -111,20 +114,18 @@ export default function song(state, action) {
     }
 
     function isExit(songlist, newsong) {
-        songlist.forEach(function(item, index) {
-            if(item.id == newsong.id) {
-                return index
+        
+        for(let i = 0, len = songlist.length; i < len; i ++) {
+            if(songlist[i]["album"]["id"] == newsong["album"]["id"]) {
+                return i
             }
-        })
+        }
         return false
     }
 
     function makeShuffle(initShuffle, index) {
         let newShuffle = initShuffle.slice(index, initShuffle.length - 1);
         initShuffle = initShuffle.slice(0, index);
-        // trueShuffle(newShuffle).forEach(function(item, index) {
-        //     initShuffle.push(item);
-        // })
         initShuffle.push(...trueShuffle(newShuffle))
         return initShuffle
     }
