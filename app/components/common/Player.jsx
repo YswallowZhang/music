@@ -214,7 +214,7 @@ export default class Player extends Component {
         return (
             <div className={styles.Player} ref="player" onMouseEnter={ev => this._inFooter()} onMouseLeave={ ev => this._outFooter()}> 
                 {this.props.data.map(function(item, index) {
-                    return <a key={index} onClick={ev => self.props.actions.songChange(item)}>{item["album"]["id"]}</a>
+                    return <a key={index} onClick={ev => self.props.actions.songChange(item)}>{item["album"]["name"]}</a>
                 })}
                 <div className={styles.lock} >
                     <div className={styles.lockImage} onClick={ ev => this._isLock()} data-action={this.state.lockImg}></div>

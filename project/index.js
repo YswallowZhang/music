@@ -24948,7 +24948,7 @@
 	                        { key: index, onClick: function onClick(ev) {
 	                                return self.props.actions.songChange(item);
 	                            } },
-	                        item["album"]["id"]
+	                        item["album"]["name"]
 	                    );
 	                }),
 	                _react2.default.createElement(
