@@ -13,11 +13,9 @@ export default function lock(state, action) {
     switch(action.state) {
         case 'UNLOCK': 
             newState.islock = false;
-            console.log(false)
             return  newState
         case 'LOCK':
             newState.islock = true;
-            console.log(true)
             return newState
         default: 
             return newState

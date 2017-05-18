@@ -16,11 +16,9 @@ export default function player(state, action) {
     switch(action.state) {
         case 'PLAYER_Pause': 
             newState.isplay = false;
-            console.log(false)
             return  newState
         case 'PLAYER_PLAY':
             newState.isplay = true;
-            console.log(true)
             return newState
         default: 
             return newState

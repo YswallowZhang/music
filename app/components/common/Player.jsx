@@ -10,9 +10,9 @@ export default class Player extends Component {
             currentTime: 0,//当前播放到的时间
             playImg: "stopInfo",//开始暂停的图片
             lockImg: "unlock",
-            duration: 1,//音频长度以秒计
+            duration: 0,//音频长度以秒计
             buffered: 0,//缓冲范围
-            source: "cd",//歌曲资源
+            source: "",//歌曲资源
             picUrl: "./app/song/images/hehe.jpg",//歌曲图片地址
             songName: "成都",//歌曲的名字
             artists:"赵雷",//歌手
@@ -28,19 +28,19 @@ export default class Player extends Component {
         })
         //能够播放，播放需要缓冲
         this.refs.audio.addEventListener('canplay', function() {
-            // console.log("auto1", this.autoplay)
-            if(this.autoplay) {
+            console.log("autoplay", self.autoplay)
+            if(self.autoplay) {
                 self.props.actions.songPlay();
-                console.log("auto2", this.autoplay)
-                this.autoplay = false;
+                console.log("songplay",self.props.player.isplay)
+                self.autoplay = false;
             }
         })
         //播放位置被改变
         this.refs.audio.addEventListener('timeupdate', function(e) {
             if(flag == 0) {
                 self.setState({
-                currentTime: e.target.currentTime
-            });
+                    currentTime: e.target.currentTime
+                });
             }
         }, true)
         //播放时长被改变
@@ -53,12 +53,15 @@ export default class Player extends Component {
         this.refs.audio.addEventListener('ended', function() {
             self.props.actions.songNext();
             self.props.actions.songPause();
-
+            self.setState({
+                currentTime: 0
+            });
         })
         //浏览器停止请求数据
         this.refs.audio.addEventListener('seeked', function() {
 
         })
+        //进度条拖动
         let oldx, flag = 0, oldleft, movex, max = 493;
         this.refs.circle.addEventListener('mousedown', function(e) {
             event.preventDefault();
@@ -72,7 +75,6 @@ export default class Player extends Component {
                 movex = e.clientX;
                 let left = movex - oldx;
                 if(oldleft + left <= max && oldleft + left >= 0) {
-                    self.refs.circle.style.left  = oldleft + left + 'px'
                     self.setState({
                         currentTime: (oldleft + left) / max * self.state.duration
                     }) 
@@ -91,11 +93,11 @@ export default class Player extends Component {
     _secTotime(sec) {
         let min = parseInt(sec / 60);
         if (min < 10) {
-        min = '0' + min;
+            min = '0' + min;
         }
         let second = parseInt(sec % 60);
         if (second < 10) {
-        second = '0' + second;
+            second = '0' + second;
         }
 
         return min + ':' + second;
@@ -170,31 +172,33 @@ export default class Player extends Component {
        
         const {song} = this.props;
         const nextIndex = nextProps.song.currentSongIndex;
-        console.log(nextProps.song, this.props.song)
-        if(nextProps.lock.islock) {
+        if(nextProps.lock.islock && this.props.lock.islock != nextProps.lock.islock) {
             this.refs.player.style.bottom = "0px"
         }
-        
+
         if(nextProps.player.isplay) {
             this.refs.audio.play();
             this.setState({
                 playImg: "startInfo",//开始的图片    
             })
-             
-        } else {
+        } else if(!nextProps.player.isplay){
             this.refs.audio.pause();
             this.setState({
                 playImg: "stopInfo",//暂停的图片    
             })
         }
-        if(nextProps.song.songlist.length > 0 && !is(fromJS(nextProps.song.songlist), fromJS(song.songlist))) {
-            this.setState({
-                source: nextProps.song.songlist[nextIndex]["album"]["id"],
-                picUrl:nextProps.song.songlist[nextIndex]["album"]["picUrl"],
-                artists: nextProps.song.songlist[nextIndex]["artists"][0]["name"],
-                songName: nextProps.song.songlist[nextIndex]["album"]["name"],
-                currentTime:0
-            })
+
+        if(nextProps.song.songlist.length > 0) {
+            if(!is(fromJS(nextProps.song.songlist[nextIndex]), fromJS(song.songlist[song.currentSongIndex]))) {
+                this.setState({
+                    source: nextProps.song.songlist[nextIndex]["album"]["id"],
+                    picUrl: nextProps.song.songlist[nextIndex]["album"]["picUrl"],
+                    artists: nextProps.song.songlist[nextIndex]["artists"][0]["name"],
+                    songName: nextProps.song.songlist[nextIndex]["album"]["name"],
+                    currentTime: 0
+                })
+                this.autoplay = true;
+            }
         }    
     }
     // shouldComponentUpdate(nextProps, nextState) {
@@ -216,7 +220,7 @@ export default class Player extends Component {
                     <div className={styles.lockImage} onClick={ ev => this._isLock()} data-action={this.state.lockImg}></div>
                 </div>
                 <div className={styles.blank} >
-<audio ref="audio" src={'app/song/' + this.state.source + '.mp3'} controls="controls" className={styles.audio}></audio>
+<audio ref="audio" src={this.state.source} controls="controls" className={styles.audio}></audio>
                 </div>
                 <div className={styles.centerPlayer}>
                     <div className={styles.buttons}>

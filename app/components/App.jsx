@@ -49,12 +49,12 @@ class App extends Component {
             <div className='app'>
                 <Header {...this.props}/>
                 <Player {...this.props}  data={[{"album":{
-		"id":"cd",
+		"id":"http://ugc.cdn.qianqian.com/yinyueren/audio/c3b05b0875d8ccad90cacaf739a89d1a.mp3",
 		"name":"成都",
 		"picUrl":"./app/song/images/hehe.jpg",
 		},
 	 "artists":[{"id":791534,"name":"赵雷","tns":[],"alias":[]}]}, {"album":{
-		"id":"xx",
+		"id":"http://ugc.cdn.qianqian.com/yinyueren/audio/2a97e03a5022c517193c2a4cb600ffaf.mp3",
 		"name":"星星",
 		"picUrl":"./app/song/images/heihei.jpg",
 		},

@@ -15,7 +15,7 @@ export default function song(state, action) {
     switch(action.state) {
         //下一首
         case "NEXT" :
-            if(newState.songlist == 0) {
+            if(newState.songlist.length == 0) {
                 return newState
             }
 
@@ -81,13 +81,12 @@ export default function song(state, action) {
         //更换播放歌曲
         case "SONG_CHANGE" :
             let index = isExit(newState.songlist, action.payload);
-            console.log("index", index)
+            let songarr = [];
             if(index !== false) {
-                console.log("nopush")
                 newState.currentSongIndex = index;
             } else {
-                console.log("pushle")
-                newState.songlist.push(action.payload);
+                songarr = [...newState.songlist.slice(0), action.payload];
+                newState.songlist = songarr;
                 newState.currentSongIndex = newState.songlist.length - 1;
             }
             return newState
