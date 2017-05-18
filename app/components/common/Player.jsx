@@ -169,7 +169,7 @@ export default class Player extends Component {
     //     }
     // }
     componentWillReceiveProps(nextProps) {
-       
+        let self = this;
         const {song} = this.props;
         const nextIndex = nextProps.song.currentSongIndex;
         if(nextProps.lock.islock && this.props.lock.islock != nextProps.lock.islock) {
@@ -177,12 +177,16 @@ export default class Player extends Component {
         }
 
         if(nextProps.player.isplay) {
-            this.refs.audio.play();
+            setTimeout(function(){
+                self.refs.audio.play();
+            }, 100)
             this.setState({
                 playImg: "startInfo",//开始的图片    
             })
         } else if(!nextProps.player.isplay){
-            this.refs.audio.pause();
+            setTimeout(function(){
+                self.refs.audio.pause();
+            }, 100)
             this.setState({
                 playImg: "stopInfo",//暂停的图片    
             })

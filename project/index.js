@@ -24892,6 +24892,7 @@
 	    }, {
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
+	            var self = this;
 	            var song = this.props.song;
 
 	            var nextIndex = nextProps.song.currentSongIndex;
@@ -24900,11 +24901,15 @@
 	            }
 
 	            if (nextProps.player.isplay) {
-	                this.refs.audio.play();
+	                setTimeout(function () {
+	                    self.refs.audio.play();
+	                }, 100);
 	                this.setState({
 	                    playImg: "startInfo" });
 	            } else if (!nextProps.player.isplay) {
-	                this.refs.audio.pause();
+	                setTimeout(function () {
+	                    self.refs.audio.pause();
+	                }, 100);
 	                this.setState({
 	                    playImg: "stopInfo" });
 	            }
