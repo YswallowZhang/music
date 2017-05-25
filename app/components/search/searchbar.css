@@ -1,0 +1,36 @@
+.searchbar {
+    width:420px;
+    height: 40px;
+    margin: 0 auto;
+    margin-top:40px;
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    box-shadow: 0px 2px 5px #bbb inset;
+}
+.searchinput {
+    width:320px;
+    height: 17px;
+    outline: none;
+    border: none;
+    margin-top: 10px;
+    margin-left: 20px;
+    background: #fff;
+    font-size: 12px;
+    float:left
+}
+.button {
+    height: 40px;
+    width: 40px;
+    float: right;
+    border:none;
+    background-color: #f4f4f4;
+    border-radius: 0 5px 5px 0;
+    border-left: 1px solid #bbb;
+    cursor: pointer;
+    outline: none;
+    box-shadow: -2px 0px 5px #bbb;
+}
+.button:hover {
+    background-color:#fcfcfc;
+}

@@ -1,23 +1,30 @@
 'use strict'
 export default function search(state, action) {
-    if(action.type != 'LOCK') {
+    if(action.type != 'SEARCH') {
         if(state) {
             return state
         } else {
             return {
-                islock: false,
+                responseMsg: null,
+                errorMsg: null,
+                searchState: "FINISH",
+                searchMsg: null
             }
         }
     }
     let newState = Object.assign({}, state);
+    newState.searchState = action.state;
     switch(action.state) {
-        case 'UNLOCK': 
-            newState.islock = false;
-            console.log(false)
-            return  newState
-        case 'LOCK':
-            newState.islock = true;
-            console.log(true)
+        // case 'CLOSE': 
+        //     return  newState
+        case 'START':
+            newState.searchMsg = action.payload;
+            return newState
+        case 'FINISH':
+            newState.responseMsg =  action.payload;
+            return newState
+        case 'ERROR':
+            newState.errorMsg = action.payload;
             return newState
         default: 
             return newState

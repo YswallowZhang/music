@@ -12,7 +12,7 @@ export default class Player extends Component {
             lockImg: "unlock",
             duration: 0,//音频长度以秒计
             buffered: 0,//缓冲范围
-            source: "",//歌曲资源
+            source: "cd",//歌曲资源
             picUrl: "./app/song/images/hehe.jpg",//歌曲图片地址
             songName: "成都",//歌曲的名字
             artists:"赵雷",//歌手
@@ -217,14 +217,14 @@ export default class Player extends Component {
         const self = this;
         return (
             <div className={styles.Player} ref="player" onMouseEnter={ev => this._inFooter()} onMouseLeave={ ev => this._outFooter()}> 
-                {this.props.data.map(function(item, index) {
+                {/*{this.props.data.map(function(item, index) {
                     return <a key={index} onClick={ev => self.props.actions.songChange(item)}>{item["album"]["name"]}</a>
-                })}
+                })}*/}
                 <div className={styles.lock} >
                     <div className={styles.lockImage} onClick={ ev => this._isLock()} data-action={this.state.lockImg}></div>
                 </div>
                 <div className={styles.blank} >
-<audio ref="audio" src={this.state.source} controls="controls" className={styles.audio}></audio>
+<audio ref="audio" src={'app/song/' + this.state.source + '.mp3'} controls="controls" className={styles.audio}></audio>
                 </div>
                 <div className={styles.centerPlayer}>
                     <div className={styles.buttons}>

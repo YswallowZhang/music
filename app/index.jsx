@@ -10,8 +10,9 @@ import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 // import route from './router/Route'; //路由配置
 import store from './redux/Store/Store';
-// import './Config/Config.js';//引入默认配置
-import App from "./components/App.jsx";//底部播放器
+import App from "./components/App.jsx";
+import { Router, Route, hashHistory } from 'react-router';
+
 
 
 

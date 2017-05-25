@@ -1,0 +1,30 @@
+.box {
+    width:900px;
+    margin: 0 auto;
+}
+.ulbar {
+    width: 900px;
+    height: 39px;
+    background-color: #f8f8f8;
+    border-left:1px solid #ccc;
+    border-right:1px solid #ccc;
+}
+.ultitle {
+    float: left;
+    width:112.5px;
+    height: 39px;
+    line-height: 39px;
+    text-align: center;
+    font-size: 14px;
+    border-top:2px solid #ccc;
+    box-sizing: border-box;
+    border-bottom:1px solid #ccc;
+}
+.number {
+    margin-top: 28px;
+    height: 17px;
+    margin-bottom: 17px;
+}
+.ultitle:hover {
+    border-top: 2px solid #d13030;
+}

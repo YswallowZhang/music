@@ -1,0 +1,54 @@
+.songbox {
+    width:900px;
+    height:1290px;
+    margin:0 auto;
+    /*background-color: red;*/
+    position: relative;
+    margin-top: 20px;
+}
+.songPlay {
+    width:17px;
+    height: 17px;
+    float: left;
+    margin-right: 5px;
+}
+.each {
+    height: 43px;
+    /*background-color: #777777;*/
+    padding:10px 10px 8px 18px;
+    box-sizing: border-box
+
+}
+.songName {
+    width:370px;
+    float: left;
+    margin-right: 5px;
+    white-space:nowrap; 
+    text-overflow:ellipsis; 
+    -o-text-overflow:ellipsis; 
+    overflow:hidden;
+}
+.songFour {
+    width:96px;
+    float: left;
+    margin-right: 5px;
+}
+.songFour a {
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+}
+.songer {
+    width:15%;
+    float: left;
+    margin-right: 5px;
+}
+.songAlbum {
+    width:18%;
+    float: left;
+    margin-right: 5px;
+}
+.songTime {
+    float: left;
+    margin-right: 5px;
+}

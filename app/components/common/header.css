@@ -2,6 +2,7 @@
     width:100%;
     height: 70px;
     background-color: #353535;
+    position: relative
 }
 ul, li{
     margin: 0;

@@ -108,6 +108,24 @@ export default function song(state, action) {
                 newState.shuffleList = makeShuffle(initShuffle, 1);
             }
             return newState
+        //添加到播放列表
+        case "ADD":
+            if(isExist(action.payload, state.songlist)) {
+                return state;
+            }
+            let songlist = [...newState.songlist.slice(0), action.payload];
+            newState.songlist = songlist;
+            if(newState.playRule == 2) {
+                newState.shuffleList.push(newState.songlist.length - 1);
+                newState.shuffleList = getShuffle(
+                    newState.shuffleList, 
+                    newState.shuffleIndex + 1
+                );
+            }
+            if(newState.songlist.length == 1) {
+                newState.currentSongIndex = 0;
+            }
+            return newState
         default: 
             return newState
     }
@@ -115,7 +133,7 @@ export default function song(state, action) {
     function isExit(songlist, newsong) {
         
         for(let i = 0, len = songlist.length; i < len; i ++) {
-            if(songlist[i]["album"]["id"] == newsong["album"]["id"]) {
+            if(songlist[i]["id"] == newsong["id"]) {
                 return i
             }
         }

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Player from './common/Player.jsx';
-import Header from './common/Header.jsx'
+import Header from './common/Header.jsx';
+import Content from './content/Content.jsx';
 
+import { Link } from 'react-router'
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from  'redux';
@@ -12,11 +14,12 @@ import * as Actions from '../redux/Action/Index';
 //state.xx是reducer给的,将state映射到 UI 组件的参数（props)
 const mapStateToProps = state => {
     return {
-    lock: state.lock,
-    player: state.player,
-    song: state.song,
-    search: state.search,
-}}
+        lock: state.lock,
+        player: state.player,
+        song: state.song,
+        search: state.search,
+    }
+}
 
 //如果mapDispatchToProps是一个对象，它的每个键名也是对应 UI 组件的同名参数，
 //键值应该是一个函数，会被当作 Action creator ，返回的 Action 会由 Redux 自动发出。
@@ -47,18 +50,10 @@ class App extends Component {
         
         return (
             <div className='app'>
+                
                 <Header {...this.props}/>
-                <Player {...this.props}  data={[{"album":{
-		"id":"http://ugc.cdn.qianqian.com/yinyueren/audio/c3b05b0875d8ccad90cacaf739a89d1a.mp3",
-		"name":"成都",
-		"picUrl":"./app/song/images/hehe.jpg",
-		},
-	 "artists":[{"id":791534,"name":"赵雷","tns":[],"alias":[]}]}, {"album":{
-		"id":"http://ugc.cdn.qianqian.com/yinyueren/audio/2a97e03a5022c517193c2a4cb600ffaf.mp3",
-		"name":"星星",
-		"picUrl":"./app/song/images/heihei.jpg",
-		},
-	 "artists":[{"id":791534,"name":"戴荃","tns":[],"alias":[]}]}]}/>
+                <Player {...this.props}/> 
+                
             </div>
         )
     }

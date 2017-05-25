@@ -19,8 +19,8 @@ export default class Header extends Component {
                     <li className={`${styles.list} ${styles.list3}`}><a>音乐人</a></li>
                     <li className={styles.list}><a>下载客户端</a></li>
                 </ul>
-                <Search />
-
+                <Search {...this.props} />
+                <div style={{width:'100%',height:5 + 'px' ,backgroundColor: '#c70c0c', position: 'absolute', bottom: 0}}></div>
             </div>    
         )
     }

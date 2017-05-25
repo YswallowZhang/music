@@ -2,16 +2,13 @@
 //Action 就是 View 发出的通知，表示 State 应该要发生变化了。
 
 import fetch from 'isomorphic-fetch';
-
-
+import {Tool} from '../../config/Tool';
 
 //歌曲播放
-export const songPlay = (id) => {
+export const songPlay = () => {
     return {
         type: "PLAYER",
         state: 'PLAYER_PLAY',
-        payload: id
-
     }
 }
 //歌曲暂停
@@ -128,12 +125,57 @@ export const unlock = () => {
         state: "UNLOCK"
     }
 }
-
-export const search = () => {
+//搜索内容
+export const startSearch = (msg) => {
     return {
         type:"SEARCH",
-        state:""
+        state:"START",
+        payload: msg
+    }
+}  
+//搜索结果
+export const finishSearch = (res) => {
+    return {
+        type:"SEARCH",
+        state:"FINISH",
+        payload: res
+    }
+} 
+//搜索出错
+export const errorSearch = (err) => {
+    return {
+        type:"SEARCH",
+        state:"ERROR",
+        payload: err
+    }
+}   
+//
+export const search = (keywords) => {
+    return dispatch => {
+        dispatch(startSearch(keywords));
+        Tool.Search(keywords).then( res => {
+            dispatch(finishSearch(res));
+        })
+        .catch( e => {
+            dispatch(errorSearch(e));
+        })
+    };
+}
+
+export const push = (component) => {
+    return {
+        type:"ROUTER",
+        state: "PUSH",
+        payload: component
+    }
+}
+export const pop = (component) => {
+    return {
+        type:"ROUTER",
+        state: "POP"
     }
 }
 
-
+export function addSong(song) {
+  return { type: 'SONG', state: 'ADD', payload: song}
+}
