@@ -8,10 +8,10 @@ export default class SearchResult extends Component {
     }
     componentDidMount() {
         this.last = this.refs.default;
-        this.clickStyle(this.last); 
+        // this.clickStyle(this.last); 
     }
     renderStart() {
-        return <div></div>
+        return <div>333</div>
     }
     defaultStyle(e) {
         e.style.background = '#f8f8f8';
@@ -60,7 +60,7 @@ export default class SearchResult extends Component {
     }
 
     renderError() {
-        return <div></div>
+        return <div>22</div>
     }
 
     render() {

@@ -54,9 +54,7 @@ function rsaEncrypt(text, pubKey, modulus) {
 //加密
 function Encrypt(obj) {
   var text = JSON.stringify(obj);
-  console.log(text);
   var secKey = createSecretKey(16)
-  console.log(secKey);
   var encText = aesEncrypt(aesEncrypt(text, nonce), secKey);
   var encSecKey = rsaEncrypt(secKey, pubKey, modulus);
 

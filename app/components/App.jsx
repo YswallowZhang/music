@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import Player from './common/Player.jsx';
 import Header from './common/Header.jsx';
 import Content from './content/Content.jsx';
-
-import { Link } from 'react-router'
+import SearchBar from './search/SearchBar.jsx';
+import SearchResult from './search/SearchResult.jsx';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from  'redux';
 
 import * as Actions from '../redux/Action/Index';
-
+import {
+  HashRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 
 //state.xx是reducer给的,将state映射到 UI 组件的参数（props)
 const mapStateToProps = state => {
@@ -41,19 +45,21 @@ const mapDispatchToProps = dispatch => {
 //如果没用到constructor,是可以不写的
 class App extends Component {
     constructor(props) {
-        super(props);
-        
+        super(props);  
     }
-    
     render() { 
         const {actions} = this.props;
-        
         return (
-            <div className='app'>
-                
+            <div className='app'>           
                 <Header {...this.props}/>
                 <Player {...this.props}/> 
-                
+                <Route path="/search" render={() => (
+                    <div>
+                        <SearchBar {...this.props}/>
+                        <SearchResult {...this.props}/>
+                    </div>
+                )} 
+                />
             </div>
         )
     }

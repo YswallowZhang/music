@@ -14,7 +14,6 @@ const RouteConfig = (
     <Router>  
         <div>
             <Route path="/" component={App} />
-            <Route path="/search" component={SearchBar} />
         </div>
     </Router>
 )

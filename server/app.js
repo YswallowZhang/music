@@ -21,7 +21,6 @@ function createWebAPIRequest(path, data, cookie, response, method) {
 	method = method ? method : "POST"
 	var music_req = '';
 	var cryptoreq = Encrypt(data);
-    console.log(cryptoreq)
 	var http_client = http.request({
 		hostname: 'music.163.com',
 		method: method,
@@ -123,7 +122,6 @@ app.post('/search', function(req, res) {
 		"limit": limit,
 		"type": type
 	};
-    console.log(data, cookie)
 	createWebAPIRequest('/weapi/cloudsearch/get/web', data, cookie, res)
 })
 app.get('*', function (request, response){

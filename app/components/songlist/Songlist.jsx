@@ -32,7 +32,7 @@ export default class Songlist extends Component {
                         return (
                             <div className={styles.each}>
                                 <div className={styles.songPlay} onClick={e => {this._songPlay(item)}}>we</div>
-                                <div className={styles.songName}>打卡机奥斯卡飞很快就到哈萨克积分哈空间十分哈克斯克积分哈空间十分哈克斯克积分哈空间十分哈克斯克积分哈空间十分哈克斯 </div>
+                                <div className={styles.songName}></div>
                                 <div className={styles.songFour}>
                                     <a href="" title="添加到播放列表"><img src="./app/components/songlist/images/add.png" alt=""/></a>
                                     <a href=""></a>

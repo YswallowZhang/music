@@ -1,6 +1,7 @@
 .box {
     width:900px;
     margin: 0 auto;
+    position: relative
 }
 .ulbar {
     width: 900px;
@@ -8,6 +9,7 @@
     background-color: #f8f8f8;
     border-left:1px solid #ccc;
     border-right:1px solid #ccc;
+    position: relative;
 }
 .ultitle {
     float: left;
@@ -24,6 +26,7 @@
     margin-top: 28px;
     height: 17px;
     margin-bottom: 17px;
+    position: relative;
 }
 .ultitle:hover {
     border-top: 2px solid #d13030;

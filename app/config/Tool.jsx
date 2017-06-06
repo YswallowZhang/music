@@ -16,23 +16,26 @@ const sendRequest = (path, res, rej) => {
             headers: new Headers({
                 'Origin': 'http://localhost:3838',
                 'Content-Type': 'text/plain'
-
             })
         })
         .then(res => {
-            return res.json();
+            console.log(res);
+            
         })
-        .then(json => {
-            let [flag, response] = res(json);
-            if (flag) {
-                resolve(response);
-            } else {
-                reject(response);
-            }
-        })
-        .catch(err => {
-            reject(err)
-        })    
+        // .then(json => {
+        //     console.log(json)
+        //     let [flag, response] = res(json);
+        //     console.log(flag, response)
+        //     if (flag) {
+        //         resolve(response);
+        //     } else {
+        //         reject(response);
+        //     }
+        // })
+        // .catch(err => {
+        //     console.log(err)
+        //     reject(err)
+        // })    
     })
 }
 
@@ -40,7 +43,7 @@ const sendRequest = (path, res, rej) => {
 Tool.Search = (keywords) => {
     return sendRequest(
       'search/?keywords=' + keywords + '&type=1&limit=5&offset=0',
-      json => { return [true, json.result] })
+      json => { return [true, json["result"]] })
 }
 
 

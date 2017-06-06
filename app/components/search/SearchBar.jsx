@@ -6,23 +6,27 @@ export default class SearchBar extends Component {
         super(props);
     }
     componentDidMount() {
-        
+
     }
-    componentWillReceiveProps() {
-        this.refs.search.value = this.props.search.searchMsg;
+    componentWillReceiveProps(nextProps) {
+        this.refs.seain.value = nextProps.search.searchMsg;
     }
 
     _keyDown(e) {
         if(e.which == 13) {
-            this.props.actions.search(this.refs.search.value);
+            this.props.actions.search(this.refs.seain.value);
         }
+    }
+    _submit() {
+        if(! this.refs.seain.value) return
+        this.props.actions.search(this.refs.seain.value);
     }
 
     render() {
         return (
             <div className={styles.searchbar}>
-                <input type="text" className={styles.searchinput} ref="search" onKeyDown={e => this._keyDown(e)} />
-                <button className={styles.button}><img src="./app/components/common/images/search.png" alt=""/></button>
+                <input type="text" className={styles.searchinput} ref="seain" onKeyDown={e => this._keyDown(e)} />
+                <button className={styles.button}><img src="./app/components/common/images/search.png" alt="" onClick={e => this._submit()}/></button>
             </div>
         )
         

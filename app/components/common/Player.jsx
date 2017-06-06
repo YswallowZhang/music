@@ -18,6 +18,7 @@ export default class Player extends Component {
         }
     }
     componentDidMount() {
+        // console.log(this.props)
         let self = this;
         //正在获取媒体数据
         this.refs.audio.addEventListener('progress', function(e) {

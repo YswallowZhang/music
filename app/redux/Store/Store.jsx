@@ -4,6 +4,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import reducer from '../Reducer/index';
 import thunkMiddleware from 'redux-thunk';
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
 //创建一个 Redux store 来以存放应用中所有的 state，应用中应有且仅有一个 store。
 //applyMiddleware作用是将所有中间件组成一个数组，依次执行。
@@ -18,7 +19,9 @@ import thunkMiddleware from 'redux-thunk';
 //后面判断state是否存在 不存在就初始化各自部分的state 调用player reducer返回的state是this.props.player.xxx
 
 var store = createStore(
-    combineReducers(reducer),
+    combineReducers({
+        ...reducer
+    }),
     applyMiddleware(thunkMiddleware)
 );
 
