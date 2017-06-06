@@ -9,19 +9,19 @@ const sendRequest = (path, res, rej) => {
         if(rej) {
             reject(rej);
         }
-        fetch('http://localhost:3838/' + path, {
-            method: 'POST', 
-            mode: 'no-cors', 
-            credentials: 'include', 
-            headers: new Headers({
-                'Origin': 'http://localhost:3838',
-                'Content-Type': 'text/plain'
-            })
-        })
-        .then(res => {
-            console.log(res);
-            
-        })
+        // fetch('http://localhost:3838/' + path, {
+        //     method: 'POST', 
+        //     mode: 'cors', 
+        //     credentials: 'include', 
+        //     headers: new Headers({
+        //         'Origin': 'http://localhost:3838',
+        //         'Content-Type': 'text/plain'
+        //     })
+        // })
+        // .then(res => {
+        //     console.log(res);
+        //     return res
+        // })
         // .then(json => {
         //     console.log(json)
         //     let [flag, response] = res(json);
@@ -35,7 +35,17 @@ const sendRequest = (path, res, rej) => {
         // .catch(err => {
         //     console.log(err)
         //     reject(err)
-        // })    
+        // })  
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", 'http://localhost:3838/' + path, true);
+        xhr.send();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
+                let jsonData = xhr.responseText;
+                let [flag, response] = res(jsonData);
+                resolve(response);
+            }
+        }
     })
 }
 

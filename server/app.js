@@ -32,7 +32,7 @@ function createWebAPIRequest(path, data, cookie, response, method) {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'Referer': 'http://music.163.com',
 			'Host': 'music.163.com',
-			'Cookie': 'appver=2.0.2',
+			'Cookie': cookie,
 			'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
 		}
 	}, function(res) {
@@ -99,7 +99,7 @@ function createRequest(path, method, data, callback) {
 }
 
 app.all('*', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3838");
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Credentials","true");
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
@@ -112,9 +112,7 @@ app.post('/search', function(req, res) {
 	var type = req.query.type || 1;
 	var offset = req.query.offset || '0';
 	var limit = req.query.limit || 20;
-    // var cookie = req.cookies;
 
-    
 	var cookie = req.get('Cookie') ? req.get('Cookie') : (req.query.cookie ? req.query.cookie : '');
 	var data = {
 		"s": keywords,
@@ -123,6 +121,7 @@ app.post('/search', function(req, res) {
 		"type": type
 	};
 	createWebAPIRequest('/weapi/cloudsearch/get/web', data, cookie, res)
+	
 })
 app.get('*', function (request, response){
   response.sendFile(path.resolve(__dirname, 'index.html'))

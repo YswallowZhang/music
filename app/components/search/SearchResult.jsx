@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Songlist from '../songlist/Songlist.jsx';
 import styles from './searchresult.css';
 
 export default class SearchResult extends Component {
@@ -8,7 +8,7 @@ export default class SearchResult extends Component {
     }
     componentDidMount() {
         this.last = this.refs.default;
-        // this.clickStyle(this.last); 
+        this.clickStyle(this.last); 
     }
     renderStart() {
         return <div>333</div>

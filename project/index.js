@@ -4290,6 +4290,10 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Songlist = __webpack_require__(141);
+
+var _Songlist2 = _interopRequireDefault(_Songlist);
+
 var _searchresult = __webpack_require__(122);
 
 var _searchresult2 = _interopRequireDefault(_searchresult);
@@ -4315,7 +4319,7 @@ var SearchResult = function (_Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             this.last = this.refs.default;
-            // this.clickStyle(this.last); 
+            this.clickStyle(this.last);
         }
     }, {
         key: 'renderStart',
@@ -14663,6 +14667,7 @@ var Songlist = function (_Component) {
         value: function render() {
             var _this2 = this;
 
+            console.log(this.props.data);
             return _react2.default.createElement(
                 'div',
                 { className: _songlist2.default.songbox },
@@ -14709,8 +14714,7 @@ var Songlist = function (_Component) {
                                 _this2._secTotime(item.dt)
                             )
                         );
-                    }),
-                    console.log(this.props.data)
+                    })
                 )
             );
         }
@@ -14731,6 +14735,9 @@ exports.default = Songlist;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var Tool = exports.Tool = {};
 //fetch()方法返回的Promise对象并不会在HTTP状态码为404或者500的时候自动抛出异常，而需要用户进行手动处理
 //默认情况下，fetch并不会发送任何的本地的cookie到服务端，注意，如果服务端依靠Session进行用户控制的话要默认开启Cookie
@@ -14741,17 +14748,19 @@ var sendRequest = function sendRequest(path, res, rej) {
         if (rej) {
             reject(rej);
         }
-        fetch('http://localhost:3838/' + path, {
-            method: 'POST',
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: new Headers({
-                'Origin': 'http://localhost:3838',
-                'Content-Type': 'text/plain'
-            })
-        }).then(function (res) {
-            console.log(res);
-        }
+        // fetch('http://localhost:3838/' + path, {
+        //     method: 'POST', 
+        //     mode: 'cors', 
+        //     credentials: 'include', 
+        //     headers: new Headers({
+        //         'Origin': 'http://localhost:3838',
+        //         'Content-Type': 'text/plain'
+        //     })
+        // })
+        // .then(res => {
+        //     console.log(res);
+        //     return res
+        // })
         // .then(json => {
         //     console.log(json)
         //     let [flag, response] = res(json);
@@ -14765,8 +14774,22 @@ var sendRequest = function sendRequest(path, res, rej) {
         // .catch(err => {
         //     console.log(err)
         //     reject(err)
-        // })    
-        );
+        // })  
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", 'http://localhost:3838/' + path, true);
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
+                var jsonData = xhr.responseText;
+
+                var _res = res(jsonData),
+                    _res2 = _slicedToArray(_res, 2),
+                    flag = _res2[0],
+                    response = _res2[1];
+
+                resolve(response);
+            }
+        };
     });
 };
 

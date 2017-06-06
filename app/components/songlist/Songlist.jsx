@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styles from './songlist.css';
 
-
 export default class Songlist extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +24,7 @@ export default class Songlist extends Component {
         this.props.actions.addSong(song);
     }
     render() {
+        console.log(this.props.data)
         return (
             <div className={styles.songbox}>
                 <div>
@@ -45,7 +45,6 @@ export default class Songlist extends Component {
                             </div>
                         )  
                     })}
-                    {console.log(this.props.data)}
                 </div>
             </div>
         )
