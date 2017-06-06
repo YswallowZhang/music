@@ -22,32 +22,32 @@ module.exports = {
         // chunkFilename: '[name].[chunkhash:5].min.js',
     },
     module: {
-        loaders: [{
-            test: /\.js$/,
-            exclude: /^node_modules$/,
-            loader: 'babel',
-            include: [APP_PATH]
-        },{
+        rules: [
+            {
+                test: /\.jsx?$/,
+                use: [{
+                    loader: 'babel-loader',
+                }]
+            },
+            {
                 test: /\.css$/,
-                loader: "style-loader!css-loader?modules"
-        },{
-            test: /\.(eot|woff|svg|ttf|woff2|gif|appcache)(\?|$)/,
-            exclude: /^node_modules$/,
-            loader: 'file-loader?name=[name].[ext]',
-            include: [APP_PATH]
-        }, {
-            test: /\.(png|jpg)$/,
-            exclude: /^node_modules$/,
-            loader: 'url-loader?limit=8192&name=images/[hash:8].[name].[ext]',
-            //注意后面那个limit的参数，当你图片大小小于这个限制的时候，会自动启用base64编码图片
-            include: [APP_PATH]
-        }, {
-            test: /\.jsx?$/,
-            exclude: /^node_modules$/,
-            loader: 'babel',
-            include: [APP_PATH],
-        }]
+                use: ["style-loader", "css-loader?modules"]
+            },
+            {
+                test: /\.(eot|woff|svg|ttf|woff2|gif|appcache)(\?|$)/,
+                use:[{
+                    loader: 'file-loader?name=[name].[ext]',
+                }]
+            }, {
+                test: /\.(png|jpg)$/,
+                use:[{
+                    loader: 'url-loader?limit=8192&name=images/[hash:8].[name].[ext]',
+                }]
+            }]
     },
+    resolve: {
+        extensions: ['.js', '.jsx', '.json']
+    }
     // plugins: [
     //     new webpack.HotModuleReplacementPlugin(),   // 热更新插件
     //     // new webpack.NoErrorsPlugin(),   // 即使有错误也不中断运行
@@ -58,7 +58,7 @@ module.exports = {
     //     // }),
     //     new ExtractTextPlugin('[name].css')
     // ],
-    resolve: {
-        extensions: ['', '.js', '.jsx', '.less', '.scss', '.css'], //后缀名自动补全
-    }
+    // resolve: {
+    //     extensions: ['', '.js', '.jsx', '.less', '.scss', '.css'], //后缀名自动补全
+    // }
 };

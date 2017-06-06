@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const Encrypt = require('./crypto.js');
-const hbs = require('hbs');
+// const hbs = require('hbs');
 const path = require('path')
 const port = process.env.PORT || 3838
 
@@ -14,8 +14,8 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.set('views', './views');
-app.set('view engine', 'hbs');
+// app.set('views', './views');
+// app.set('view engine', 'hbs');
 
 function createWebAPIRequest(path, data, cookie, response, method) {
 	method = method ? method : "POST"

@@ -162,19 +162,6 @@ export const search = (keywords) => {
     };
 }
 
-export const push = (component) => {
-    return {
-        type:"ROUTER",
-        state: "PUSH",
-        payload: component
-    }
-}
-export const pop = (component) => {
-    return {
-        type:"ROUTER",
-        state: "POP"
-    }
-}
 
 export function addSong(song) {
   return { type: 'SONG', state: 'ADD', payload: song}

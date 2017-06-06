@@ -40,7 +40,7 @@ const mapDispatchToProps = dispatch => {
 //（无论有没有constructor，在render中this.props都是可以使用的，这是React自动附带的；）
 //如果没用到constructor,是可以不写的
 class App extends Component {
-    constructor(props:any) {
+    constructor(props) {
         super(props);
         
     }

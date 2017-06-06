@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import {is, fromJS} from 'immutable'
 import styles from "./player.css";
 
 export default class Player extends Component {

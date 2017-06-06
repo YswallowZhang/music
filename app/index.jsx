@@ -8,23 +8,24 @@
 import React, {Component, PropTypes} from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
-// import route from './router/Route'; //路由配置
+import route from './router/Route'; //路由配置
 import store from './redux/Store/Store';
 import App from "./components/App.jsx";
-import { Router, Route, hashHistory } from 'react-router';
+import SearchBar from "./components/search/SearchBar.jsx";
 
-
-
-
+import {
+  HashRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 
 
 
 render(
     <Provider store={store}>
-        <App />
+        {route}
     </Provider>,
     document.getElementById("app-root")
 );
-
 
 
