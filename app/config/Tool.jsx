@@ -42,8 +42,8 @@ const sendRequest = (path, res, rej) => {
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
                 let jsonData = xhr.responseText;
-                let [flag, response] = res(jsonData);
-                resolve(response);
+                // console.log(JSON.parse(jsonData).result)
+                resolve(JSON.parse(jsonData).result)
             }
         }
     })
@@ -52,8 +52,7 @@ const sendRequest = (path, res, rej) => {
 
 Tool.Search = (keywords) => {
     return sendRequest(
-      'search/?keywords=' + keywords + '&type=1&limit=5&offset=0',
-      json => { return [true, json["result"]] })
+      'search/?keywords=' + keywords + '&type=1&limit=30&offset=0')
 }
 
 

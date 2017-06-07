@@ -22,6 +22,7 @@ export default function search(state, action) {
             return newState
         case 'FINISH':
             newState.responseMsg =  action.payload;
+            console.log(typeof(newState.responseMsg));
             return newState
         case 'ERROR':
             newState.errorMsg = action.payload;

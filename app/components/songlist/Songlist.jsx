@@ -24,24 +24,29 @@ export default class Songlist extends Component {
         this.props.actions.addSong(song);
     }
     render() {
-        console.log(this.props.data)
+       let bgcolor;
         return (
             <div className={styles.songbox}>
                 <div>
                     {this.props.data.map((item, index) => {
+                        if(index % 2 == 1) {
+                            bgcolor = '#f7f7f7';
+                        } else {
+                            bgcolor = '#fff';
+                        }
                         return (
-                            <div className={styles.each}>
-                                <div className={styles.songPlay} onClick={e => {this._songPlay(item)}}>we</div>
-                                <div className={styles.songName}></div>
+                            <div className={styles.each} key={index} style={{backgroundColor:bgcolor,border:'1px solid' + bgcolor }}>
+                                <div className={styles.songPlay} onClick={e => {this._songPlay(item)}}><a href=""></a></div>
+                                <div className={styles.songName}><a href="">{item.name}</a></div>
                                 <div className={styles.songFour}>
                                     <a href="" title="添加到播放列表"><img src="./app/components/songlist/images/add.png" alt=""/></a>
                                     <a href=""></a>
                                     <a href=""></a>
                                     <a href=""></a>
                                 </div>
-                                <div className={styles.songer}>{item.ar[0].name}</div>
-                                <div className={styles.songAlbum}>{item.al.name}</div>
-                                <div className={styles.songTime}>{this._secTotime(item.dt)}</div>
+                                <div className={styles.songer}><a href="">{item.ar[0].name}</a></div>
+                                <div className={styles.songAlbum}><a href="">《{item.al.name}》</a></div>
+                                <div className={styles.songTime}>{this._secTotime(item.dt / 1000)}</div>
                             </div>
                         )  
                     })}

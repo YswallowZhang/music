@@ -7,8 +7,7 @@ export default class SearchResult extends Component {
         super(props);
     }
     componentDidMount() {
-        this.last = this.refs.default;
-        this.clickStyle(this.last); 
+        let count = false;
     }
     renderStart() {
         return <div>333</div>
@@ -27,20 +26,26 @@ export default class SearchResult extends Component {
         e.style.borderRight = '1px solid #ccc';
         e.style.borderLeft = '1px solid #ccc';
     } 
-    _resultType(e) {
-        let target = e.target, self = this;
-        self.defaultStyle(self.last);
-        self.clickStyle(target);
-        self.last = target;
-    }
+    // _resultType(e) {
+    //     if(this.count == false) {
+    //         this.last = this.refs.default;
+    //     } else {
+    //         this.count = true
+    //     }
+    //     let target = e.target, self = this;
+    //     self.defaultStyle(self.last);
+    //     self.clickStyle(target);
+    //     self.last = target;
+    // }
     renderFinish() {
         return (
             <div className={styles.box}>
                 <div className={styles.number}>
                     <span>搜索"{this.props.search.searchMsg}"</span>
-                    {/*<span>查询到<em>{this.props.search.searchResponse.songCount}</em>条结果</span>*/}
+                    {console.log(this.props.search)}
+                    <span>查询到<em>{this.props.search.responseMsg.songCount}</em>条结果</span>
                 </div>
-                <ul className={styles.ulbar} onClick={ e => {this._resultType(e)}}>
+                <ul className={styles.ulbar}>
                     <li className={styles.ultitle} ref="default">单曲</li>
                     <li className={styles.ultitle}>歌手</li>
                     <li className={styles.ultitle}>专辑</li>
@@ -50,11 +55,11 @@ export default class SearchResult extends Component {
                     <li className={styles.ultitle}>主播电台</li>
                     <li className={styles.ultitle}>用户</li>
                 </ul>
-                {/*<Songlist 
-                    data={this.props.search.searchResponse.result.songs} 
+                <Songlist 
+                    data={this.props.search.responseMsg.songs} 
                     changeSong={this.props.actions.changeSong}
                     addSong={this.props.actions.addSong} 
-                />*/}
+                />
             </div>
         )
     }

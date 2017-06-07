@@ -135,6 +135,7 @@ export const startSearch = (msg) => {
 }  
 //搜索结果
 export const finishSearch = (res) => {
+    console.log(1)
     return {
         type:"SEARCH",
         state:"FINISH",
@@ -143,6 +144,7 @@ export const finishSearch = (res) => {
 } 
 //搜索出错
 export const errorSearch = (err) => {
+    console.log(err);
     return {
         type:"SEARCH",
         state:"ERROR",
@@ -153,7 +155,8 @@ export const errorSearch = (err) => {
 export const search = (keywords) => {
     return dispatch => {
         dispatch(startSearch(keywords));
-        Tool.Search(keywords).then( res => {
+        Tool.Search(keywords)
+        .then( res => {
             dispatch(finishSearch(res));
         })
         .catch( e => {
