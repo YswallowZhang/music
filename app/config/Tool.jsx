@@ -38,11 +38,11 @@ const sendRequest = (path, res, rej) => {
         // })  
         var xhr = new XMLHttpRequest();
         xhr.open("POST", 'http://localhost:3838/' + path, true);
+        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
         xhr.send();
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
                 let jsonData = xhr.responseText;
-                // console.log(JSON.parse(jsonData).result)
                 resolve(JSON.parse(jsonData).result)
             }
         }
@@ -50,9 +50,9 @@ const sendRequest = (path, res, rej) => {
 }
 
 
-Tool.Search = (keywords) => {
+Tool.Search = (keywords, type, offset) => {
     return sendRequest(
-      'search/?keywords=' + keywords + '&type=1&limit=30&offset=0')
+      'search/?keywords=' + keywords + '&type=' + type + '&limit=30&offset=' + offset)
 }
 
 

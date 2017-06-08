@@ -126,20 +126,22 @@ export const unlock = () => {
     }
 }
 //搜索内容
-export const startSearch = (msg) => {
+export const startSearch = (msg, offset) => {
     return {
         type:"SEARCH",
         state:"START",
-        payload: msg
+        payload: msg,
+        offset:offset / 30
     }
 }  
 //搜索结果
-export const finishSearch = (res) => {
+export const finishSearch = (res, offset) => {
     console.log(1)
     return {
         type:"SEARCH",
         state:"FINISH",
-        payload: res
+        payload: res,
+        offset:offset / 30
     }
 } 
 //搜索出错
@@ -152,12 +154,12 @@ export const errorSearch = (err) => {
     }
 }   
 //
-export const search = (keywords) => {
+export const search = (keywords, type, offset) => {
     return dispatch => {
         dispatch(startSearch(keywords));
-        Tool.Search(keywords)
+        Tool.Search(keywords, type, offset)
         .then( res => {
-            dispatch(finishSearch(res));
+            dispatch(finishSearch(res, offset));
         })
         .catch( e => {
             dispatch(errorSearch(e));

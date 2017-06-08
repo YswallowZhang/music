@@ -45,11 +45,19 @@
     width:15%;
     float: left;
     margin-right: 5px;
+    white-space:nowrap; 
+    text-overflow:ellipsis; 
+    -o-text-overflow:ellipsis; 
+    overflow:hidden;
 }
 .songAlbum {
     width:18%;
     float: left;
     margin-right: 5px;
+    white-space:nowrap; 
+    text-overflow:ellipsis; 
+    -o-text-overflow:ellipsis; 
+    overflow:hidden;
 }
 .songTime {
     float: left;

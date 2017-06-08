@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Songlist from '../songlist/Songlist.jsx';
 import styles from './searchresult.css';
+import Songbar from '../songlist/Songbar.jsx';
 
 export default class SearchResult extends Component {
     constructor(props) {
@@ -59,6 +60,12 @@ export default class SearchResult extends Component {
                     data={this.props.search.responseMsg.songs} 
                     changeSong={this.props.actions.changeSong}
                     addSong={this.props.actions.addSong} 
+                />
+                <Songbar
+                    count={this.props.search.responseMsg.songCount}
+                    data={this.props.search.responseMsg.songs}
+                    searchAction={this.props.actions.search}
+                    searchReducer={this.props.search}
                 />
             </div>
         )

@@ -8,7 +8,8 @@ export default function search(state, action) {
                 responseMsg: null,
                 errorMsg: null,
                 searchState: "FINISH",
-                searchMsg: null
+                searchMsg: null,
+                offset:0
             }
         }
     }
@@ -19,10 +20,12 @@ export default function search(state, action) {
         //     return  newState
         case 'START':
             newState.searchMsg = action.payload;
+            newState.offset = action.offset
             return newState
         case 'FINISH':
             newState.responseMsg =  action.payload;
-            console.log(typeof(newState.responseMsg));
+            newState.offset = action.offset;
+            console.log(newState.offset)
             return newState
         case 'ERROR':
             newState.errorMsg = action.payload;

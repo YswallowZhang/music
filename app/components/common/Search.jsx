@@ -12,8 +12,8 @@ export default class Search extends Component {
     }
     _keyDown(e) {
         if(e.which == 13) {
-            this.props.actions.search(this.refs.search.value); 
-            history.push('/search');
+            this.props.actions.search(this.refs.search.value, 1, 0); 
+            history.push('search/?keywords=' + encodeURI(this.refs.search.value) + '&type=1');
             
         }
     }

@@ -14,12 +14,12 @@ export default class SearchBar extends Component {
 
     _keyDown(e) {
         if(e.which == 13) {
-            this.props.actions.search(this.refs.seain.value);
+            this.props.actions.search(this.refs.seain.value, 1, 0);
         }
     }
     _submit() {
         if(! this.refs.seain.value) return
-        this.props.actions.search(this.refs.seain.value);
+        this.props.actions.search(this.refs.seain.value, 1, 0);
     }
 
     render() {

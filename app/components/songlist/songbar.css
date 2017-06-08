@@ -1,0 +1,17 @@
+.box {
+    width:900px;
+    height: 26px;
+    margin:0 auto;
+    margin-bottom: 100px;
+}
+.pages {
+    display: inline-block;
+    height: 22px;
+    padding: 0 8px;
+    line-height: 22px;
+    border: 1px solid #ccc;
+    color: #333;
+}
+.content {
+    text-align: center
+}
