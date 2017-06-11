@@ -4379,7 +4379,6 @@ var SearchResult = function (_Component) {
                         this.props.search.searchMsg,
                         '"'
                     ),
-                    console.log(this.props.search),
                     _react2.default.createElement(
                         'span',
                         null,
@@ -4438,7 +4437,7 @@ var SearchResult = function (_Component) {
                 ),
                 _react2.default.createElement(_Songlist2.default, {
                     data: this.props.search.responseMsg.songs,
-                    changeSong: this.props.actions.changeSong,
+                    songChange: this.props.actions.songChange,
                     addSong: this.props.actions.addSong
                 }),
                 _react2.default.createElement(_Songbar2.default, {
@@ -8550,12 +8549,12 @@ var Songlist = function (_Component) {
     }, {
         key: '_songPlay',
         value: function _songPlay(song) {
-            this.props.actions.songChange(song);
+            this.props.songChange(song);
         }
     }, {
         key: '_songAdd',
         value: function _songAdd(song) {
-            this.props.actions.addSong(song);
+            this.props.addSong(song);
         }
     }, {
         key: 'render',
@@ -8580,10 +8579,14 @@ var Songlist = function (_Component) {
                             { className: _songlist2.default.each, key: index, style: { backgroundColor: bgcolor, border: '1px solid' + bgcolor } },
                             _react2.default.createElement(
                                 'div',
-                                { className: _songlist2.default.songPlay, onClick: function onClick(e) {
-                                        _this2._songPlay(item);
-                                    } },
-                                _react2.default.createElement('a', { href: '' })
+                                { className: _songlist2.default.songPlay },
+                                _react2.default.createElement(
+                                    'a',
+                                    { href: 'javascript:void(0)', onClick: function onClick(e) {
+                                            _this2._songPlay(item);
+                                        } },
+                                    'wewe'
+                                )
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -8599,12 +8602,12 @@ var Songlist = function (_Component) {
                                 { className: _songlist2.default.songFour },
                                 _react2.default.createElement(
                                     'a',
-                                    { href: '', title: '\u6DFB\u52A0\u5230\u64AD\u653E\u5217\u8868' },
+                                    { href: 'javascript:void(0)', title: '\u6DFB\u52A0\u5230\u64AD\u653E\u5217\u8868' },
                                     _react2.default.createElement('img', { src: './app/components/songlist/images/add.png', alt: '' })
                                 ),
-                                _react2.default.createElement('a', { href: '' }),
-                                _react2.default.createElement('a', { href: '' }),
-                                _react2.default.createElement('a', { href: '' })
+                                _react2.default.createElement('a', { href: 'javascript:void(0)' }),
+                                _react2.default.createElement('a', { href: 'javascript:void(0)' }),
+                                _react2.default.createElement('a', { href: 'javascript:void(0)' })
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -14026,7 +14029,7 @@ exports = module.exports = __webpack_require__(18)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n    margin: 0 auto;\n    font-size: 12px;\n}\na {\n    text-decoration: none; \n}\ni {\n    font-style:normal;\n}\n._9d502tJAT5tO1qT_9zNHd {\n    width:100%;\n    margin : 0 auto;\n    height: 49px;\n    background-color:rgba(0,0,0,0.8);\n    position:fixed;\n    bottom: 0px;\n    transition: all 0.5s ease 0.2s;\n    /*z-index: 100;*/\n}\n._3t_BtBthhxvAzjCDaGQtoL {\n    width:100%;\n    height: 20px;\n    /*background-color:blue;*/\n    top: -20px;\n    position: absolute;\n    cursor: pointer\n}\n._2n_6nuzx9to-IgoGS3Xid3 {\n    z-index: 11;\n    width:100%;\n    position: relative;\n    top: -7px;\n}\n._3N_JPZ7IKBIIQ-5jX0x88c {\n    width:20px;\n    height: 20px;\n    position: absolute;\n    right: 35px;\n    top:-10px;\n    cursor: pointer;\n}\n[data-action=\"lock\"] {\n     background: url(" + __webpack_require__(133) + ") no-repeat;\n}\n[data-action=\"unlock\"] {\n     background: url(" + __webpack_require__(139) + ") no-repeat;\n}\n._2yPTHgiJTD1IV3fi6rIhri {\n    position: relative;\n    width:980px;\n    height: 47px;\n    margin:0 auto;\n    overflow: hidden;\n}\n\n._38FJmjTiKZj9N51xDnpX8K {\n    padding:6px;\n    float: left\n}\n.R_6wP4ZadG9BVkHeqVASX {\n    background: url(" + __webpack_require__(135) + ") no-repeat;\n    width:28px;\n    height: 28px;\n    background-size: 28px 28px;\n    display: block;\n    float: left;\n    margin-top:4px;\n}\n._1fHJIRrOUPlgZiOnOPOVA- {\n    background: url(" + __webpack_require__(134) + ") no-repeat;\n    width:28px;\n    height: 28px;\n    background-size: 28px 28px;\n    display: block;\n    float: left;\n    margin-top:4px;\n}\n._1GCcTktxzAoYLwVdh9VBGz {\n    width:36px;\n    height: 36px;\n    background-size: 36px 36px;\n    margin-left: 10px;\n    margin-right: 10px;\n    display: block;\n    float: left\n\n}\n[data-action=\"startInfo\"] {\n    background: url(" + __webpack_require__(137) + ") no-repeat;\n}\n[data-action=\"stopInfo\"] {\n    background: url(" + __webpack_require__(138) + ") no-repeat;\n}\n.V_0jzf0MTTe8uiaeXM78D {\n    width:34px;\n    height: 34px;\n    float: left;\n    margin-left: 20px;\n    margin-right: 15px;\n    margin-top: 6px;\n}\n._1k6co9U89UeZ9WpFUS4PcT {\n    width:34px;\n    height: 34px;\n    border-radius: 3px;\n}\n._13xz4IOACu3ZXfyooErin9 {\n    float: left;\n    display: none\n}\n.m6gsS_vXNaB3IOhWqqL6C {\n    width:608px;\n    height: 37px;\n    float: left;\n    position: relative;\n}\n._2loCP5pzCogh9ktmP0lwN0 {\n    color:#e8e8e8;\n    line-height: 28px;\n}\n.DEEgpzYzK3IBTtObZVBdP {\n    color:#9b9b9b;\n    line-height: 28px;\n    margin-left: 15px;\n    text-shadow: 0 1px 0 #171717;\n}\n._2_qq_OSkBeYdoBVVGzxQXz {\n    width:493px;\n    height: 9px;\n    background-color: #191919;\n    border-radius: 10px;\n    position: relative;\n    /*overflow: hidden;*/\n    float: left;\n\n}\n.cR7Xrmfx8eKsRwRJXv1g7 {\n    height: 9px;\n    border-radius: 10px;\n    position: absolute;\n    background-color: #c70c0c;\n}\n._2ynkgcXhwCezyGvz9EhkcQ {\n    background-color: #5c5c5c;\n    height: 9px;\n    border-radius: 10px;\n    position: absolute;\n}\n._3hKnJvc11Gcuyyfu5N8hC1 {\n    color:#a1a1a1;\n}\n._2jO8sAU3b3BUJmtW3ob5OU {\n    text-shadow: 0 1px 0 #121212;\n    float: left;\n    margin-left: 14px;\n}\n._3VLmcMZ3WzjhKqpdqWDewI {\n    color:#797979;\n    \n}\n._1N8naDIHtpsJJdKbT_-KRG {\n    width:18px;\n    height: 18px;\n    position: absolute;\n    top:-5px;\n    cursor: pointer;\n    left:0px;\n}", ""]);
+exports.push([module.i, "body {\n    margin: 0 auto;\n    font-size: 12px;\n}\na {\n    text-decoration: none; \n}\ni {\n    font-style:normal;\n}\n._9d502tJAT5tO1qT_9zNHd {\n    width:100%;\n    margin : 0 auto;\n    height: 49px;\n    background-color:rgba(0,0,0,0.8);\n    position:fixed;\n    bottom: 0px;\n    transition: all 0.5s ease 0.2s;\n    /*z-index: 100;*/\n}\n._3t_BtBthhxvAzjCDaGQtoL {\n    width:100%;\n    height: 20px;\n    /*background-color:blue;*/\n    top: -20px;\n    position: absolute;\n    cursor: pointer\n}\n._2n_6nuzx9to-IgoGS3Xid3 {\n    z-index: 11;\n    width:100%;\n    position: relative;\n    top: -7px;\n}\n._3N_JPZ7IKBIIQ-5jX0x88c {\n    width:20px;\n    height: 20px;\n    position: absolute;\n    right: 35px;\n    top:-10px;\n    cursor: pointer;\n}\n[data-action=\"lock\"] {\n     background: url(" + __webpack_require__(133) + ") no-repeat;\n}\n[data-action=\"unlock\"] {\n     background: url(" + __webpack_require__(139) + ") no-repeat;\n}\n._2yPTHgiJTD1IV3fi6rIhri {\n    position: relative;\n    width:980px;\n    height: 47px;\n    margin:0 auto;\n    overflow: hidden;\n}\n\n._38FJmjTiKZj9N51xDnpX8K {\n    padding:6px;\n    float: left\n}\n.R_6wP4ZadG9BVkHeqVASX {\n    background: url(" + __webpack_require__(135) + ") no-repeat;\n    width:28px;\n    height: 28px;\n    background-size: 28px 28px;\n    display: block;\n    float: left;\n    margin-top:4px;\n}\n._1fHJIRrOUPlgZiOnOPOVA- {\n    background: url(" + __webpack_require__(134) + ") no-repeat;\n    width:28px;\n    height: 28px;\n    background-size: 28px 28px;\n    display: block;\n    float: left;\n    margin-top:4px;\n}\n._1GCcTktxzAoYLwVdh9VBGz {\n    width:36px;\n    height: 36px;\n    background-size: 36px 36px;\n    margin-left: 10px;\n    margin-right: 10px;\n    display: block;\n    float: left\n\n}\n[data-action=\"startInfo\"] {\n    background: url(" + __webpack_require__(137) + ") no-repeat;\n}\n[data-action=\"stopInfo\"] {\n    background: url(" + __webpack_require__(138) + ") no-repeat;\n}\n.V_0jzf0MTTe8uiaeXM78D {\n    width:34px;\n    height: 34px;\n    float: left;\n    margin-left: 20px;\n    margin-right: 15px;\n    margin-top: 6px;\n}\n._1k6co9U89UeZ9WpFUS4PcT {\n    width:34px;\n    height: 34px;\n    border-radius: 3px;\n}\n._13xz4IOACu3ZXfyooErin9 {\n    float: left;\n    display: none\n}\n.m6gsS_vXNaB3IOhWqqL6C {\n    width:608px;\n    height: 37px;\n    float: left;\n    position: relative;\n}\n._2loCP5pzCogh9ktmP0lwN0 {\n    color:#e8e8e8;\n    line-height: 28px;\n}\n.DEEgpzYzK3IBTtObZVBdP {\n    color:#9b9b9b;\n    line-height: 28px;\n    margin-left: 15px;\n    text-shadow: 0 1px 0 #171717;\n}\n._2_qq_OSkBeYdoBVVGzxQXz {\n    width:493px;\n    height: 9px;\n    background-color: #191919;\n    border-radius: 10px;\n    position: relative;\n    /*overflow: hidden;*/\n    float: left;\n\n}\n.cR7Xrmfx8eKsRwRJXv1g7 {\n    height: 9px;\n    border-radius: 10px;\n    position: absolute;\n    background-color: #c70c0c;\n}\n._2ynkgcXhwCezyGvz9EhkcQ {\n    background-color: #5c5c5c;\n    height: 9px;\n    border-radius: 10px;\n    position: absolute;\n}\n._3hKnJvc11Gcuyyfu5N8hC1 {\n    color:#a1a1a1;\n}\n._2jO8sAU3b3BUJmtW3ob5OU {\n    text-shadow: 0 1px 0 #121212;\n    float: left;\n    margin-left: 14px;\n    margin-top: -4px;\n}\n._3VLmcMZ3WzjhKqpdqWDewI {\n    color:#797979;\n    \n}\n._1N8naDIHtpsJJdKbT_-KRG {\n    width:18px;\n    height: 18px;\n    position: absolute;\n    top:-5px;\n    cursor: pointer;\n    left:0px;\n}", ""]);
 
 // exports
 exports.locals = {
@@ -14330,6 +14333,8 @@ var _player = __webpack_require__(120);
 
 var _player2 = _interopRequireDefault(_player);
 
+var _Tool = __webpack_require__(145);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14353,10 +14358,10 @@ var Player = function (_Component) {
             lockImg: "unlock",
             duration: 0, //音频长度以秒计
             buffered: 0, //缓冲范围
-            source: "cd", //歌曲资源
-            picUrl: "./app/song/images/hehe.jpg", //歌曲图片地址
-            songName: "成都", //歌曲的名字
-            artists: "赵雷" //歌手
+            source: "", //歌曲资源
+            picUrl: "", //歌曲图片地址
+            songName: "", //歌曲的名字
+            artists: "" //歌手
         };
         return _this;
     }
@@ -14525,18 +14530,6 @@ var Player = function (_Component) {
         value: function _changeRule() {
             this.props.actions.songMode();
         }
-
-        // isObjectValueEqual(a, b) {
-        //     console.log(a["album"]["id"], b["album"]["id"]);
-        //     if(a["album"]["id"] == b["album"]["id"]) {
-        //         console.log("id", true)
-        //         return true
-        //     } else {
-        //         console.log("id", false)
-        //         return false
-        //     }
-        // }
-
     }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
@@ -14544,6 +14537,7 @@ var Player = function (_Component) {
             var song = this.props.song;
 
             var nextIndex = nextProps.song.currentSongIndex;
+            console.log(nextIndex);
             if (nextProps.lock.islock && this.props.lock.islock != nextProps.lock.islock) {
                 this.refs.player.style.bottom = "0px";
             }
@@ -14563,18 +14557,25 @@ var Player = function (_Component) {
                     playImg: "stopInfo" //暂停的图片    
                 });
             }
-
             if (nextProps.song.songlist.length > 0) {
-                if (!is(fromJS(nextProps.song.songlist[nextIndex]), fromJS(song.songlist[song.currentSongIndex]))) {
-                    this.setState({
-                        source: nextProps.song.songlist[nextIndex]["album"]["id"],
-                        picUrl: nextProps.song.songlist[nextIndex]["album"]["picUrl"],
-                        artists: nextProps.song.songlist[nextIndex]["artists"][0]["name"],
-                        songName: nextProps.song.songlist[nextIndex]["album"]["name"],
-                        currentTime: 0
-                    });
-                    this.autoplay = true;
-                }
+
+                this.setState({
+                    picUrl: nextProps.song.songlist[nextIndex].al.picUrl,
+                    artists: nextProps.song.songlist[nextIndex].ar[0].name,
+                    songName: nextProps.song.songlist[nextIndex].name,
+                    currentTime: 0
+                });
+                this.autoplay = true;
+                _Tool.Tool.getSongUrl(nextProps.song.songlist[nextProps.song.currentSongIndex], function (data) {
+                    if (!data.url) {
+                        self.props.actions.songNext();
+                    }
+                    if (data.id == nextProps.song.songlist[nextProps.song.currentSongIndex].id) {
+                        self.setState({
+                            source: data.url
+                        });
+                    }
+                });
             }
         }
         // shouldComponentUpdate(nextProps, nextState) {
@@ -14607,7 +14608,7 @@ var Player = function (_Component) {
                 _react2.default.createElement(
                     "div",
                     { className: _player2.default.blank },
-                    _react2.default.createElement("audio", { ref: "audio", src: 'app/song/' + this.state.source + '.mp3', controls: "controls", className: _player2.default.audio })
+                    _react2.default.createElement("audio", { ref: "audio", src: this.state.source, controls: "controls", className: _player2.default.audio })
                 ),
                 _react2.default.createElement(
                     "div",
@@ -14861,6 +14862,9 @@ var Songbar = function (_Component) {
 
         _this.arr = [];
         _this.length = Math.ceil(_this.props.count / 30);
+        if (_this.props.count >= 9999) {
+            _this.length = 17;
+        }
         for (var i = 0; i < _this.length; i++) {
             _this.arr[i] = i + 1;
         }
@@ -14875,11 +14879,13 @@ var Songbar = function (_Component) {
     }, {
         key: '_previous',
         value: function _previous(index) {
+            if (index == 0) return;
             this.props.searchAction(this.props.searchReducer.searchMsg, 1, (index - 1) * 30);
         }
     }, {
         key: '_next',
         value: function _next(index) {
+            if (index == this.length - 1) return;
             this.props.searchAction(this.props.searchReducer.searchMsg, 1, (index + 1) * 30);
         }
     }, {
@@ -14965,6 +14971,9 @@ exports.default = Songbar;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var Tool = exports.Tool = {};
 //fetch()方法返回的Promise对象并不会在HTTP状态码为404或者500的时候自动抛出异常，而需要用户进行手动处理
 //默认情况下，fetch并不会发送任何的本地的cookie到服务端，注意，如果服务端依靠Session进行用户控制的话要默认开启Cookie
@@ -15008,15 +15017,44 @@ var sendRequest = function sendRequest(path, res, rej) {
         xhr.send();
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
-                var jsonData = xhr.responseText;
-                resolve(JSON.parse(jsonData).result);
+                var _res = res(JSON.parse(xhr.responseText)),
+                    _res2 = _slicedToArray(_res, 2),
+                    flag = _res2[0],
+                    jsonData = _res2[1];
+
+                resolve(jsonData);
             }
         };
     });
 };
 
 Tool.Search = function (keywords, type, offset) {
-    return sendRequest('search/?keywords=' + keywords + '&type=' + type + '&limit=30&offset=' + offset);
+    return sendRequest('search/?keywords=' + keywords + '&type=' + type + '&limit=30&offset=' + offset, function (json) {
+        return [true, json.result];
+    });
+};
+
+// id --> mp3url
+Tool.getSongUrl = function (song, callback) {
+    var id = song.id,
+        br = void 0;
+    if (song.h) {
+        br = song.h.br;
+    } else if (song.m) {
+        br = song.m.br;
+    } else if (song.l) {
+        br = song.l.br;
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", 'http://localhost:3838/music/url?id=' + id + '&br=' + br, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
+            var jsonData = xhr.responseText;
+            callback(JSON.parse(jsonData));
+        }
+    };
 };
 
 /***/ }),
@@ -15029,7 +15067,7 @@ Tool.Search = function (keywords, type, offset) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.search = exports.errorSearch = exports.finishSearch = exports.startSearch = exports.unlock = exports.lock = exports.guest = exports.loggedFail = exports.loggedIn = exports.loggingIn = exports.controlVolume = exports.closePlayList = exports.showPlayList = exports.songPrevious = exports.songNext = exports.playList = exports.songChange = exports.songMode = exports.songPause = exports.songPlay = undefined;
+exports.playList = exports.songChange = exports.songMode = exports.search = exports.errorSearch = exports.finishSearch = exports.startSearch = exports.unlock = exports.lock = exports.guest = exports.loggedFail = exports.loggedIn = exports.loggingIn = exports.controlVolume = exports.closePlayList = exports.showPlayList = exports.songPrevious = exports.songNext = exports.songPause = exports.songPlay = undefined;
 exports.addSong = addSong;
 
 var _isomorphicFetch = __webpack_require__(264);
@@ -15058,29 +15096,7 @@ var songPause = exports.songPause = function songPause(id) {
         payload: id
     };
 };
-//循环列表、单曲循环、随机循环
-var songMode = exports.songMode = function songMode() {
-    return {
-        type: "SONG",
-        state: 'MODE_CHANGE'
-    };
-};
-//更换歌单类的歌
-var songChange = exports.songChange = function songChange(song) {
-    return {
-        type: "SONG",
-        state: "SONG_CHANGE",
-        payload: song
-    };
-};
-// 更换播放列表的歌
-var playList = exports.playList = function playList(id) {
-    return {
-        type: "SONG",
-        state: "PLAY_LIST",
-        payload: id
-    };
-};
+
 //下一首
 var songNext = exports.songNext = function songNext() {
     return {
@@ -15170,12 +15186,11 @@ var startSearch = exports.startSearch = function startSearch(msg, offset) {
         type: "SEARCH",
         state: "START",
         payload: msg,
-        offset: offset / 30
+        offset: offset
     };
 };
 //搜索结果
 var finishSearch = exports.finishSearch = function finishSearch(res, offset) {
-    console.log(1);
     return {
         type: "SEARCH",
         state: "FINISH",
@@ -15204,8 +15219,37 @@ var search = exports.search = function search(keywords, type, offset) {
     };
 };
 
+//循环列表、单曲循环、随机循环
+var songMode = exports.songMode = function songMode() {
+    return {
+        type: "SONG",
+        state: 'MODE_CHANGE'
+    };
+};
+//更换歌单类的歌
+var songChange = exports.songChange = function songChange(song) {
+
+    return {
+        type: "SONG",
+        state: "SONG_CHANGE",
+        payload: song
+    };
+};
+// 更换播放列表的歌
+var playList = exports.playList = function playList(id) {
+    return {
+        type: "SONG",
+        state: "PLAY_LIST",
+        payload: id
+    };
+};
+//添加到播放列表
 function addSong(song) {
-    return { type: 'SONG', state: 'ADD', payload: song };
+    return {
+        type: 'SONG',
+        state: 'ADD',
+        payload: song
+    };
 }
 
 /***/ }),
@@ -15524,7 +15568,7 @@ function song(state, action) {
             return newState;
         //添加到播放列表
         case "ADD":
-            if (isExist(action.payload, state.songlist)) {
+            if (isExit(action.payload, state.songlist)) {
                 return state;
             }
             var songlist = [].concat(_toConsumableArray(newState.songlist.slice(0)), [action.payload]);

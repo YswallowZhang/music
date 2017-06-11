@@ -7,6 +7,9 @@ export default class Songbar extends Component {
         super(props);
         this.arr = [];
         this.length = Math.ceil(this.props.count / 30);
+        if(this.props.count >= 9999) {
+            this.length = 17;
+        }
         for(let i = 0; i < this.length; i ++) {
             this.arr[i] = i + 1;
         }
@@ -15,9 +18,11 @@ export default class Songbar extends Component {
         this.props.searchAction(this.props.searchReducer.searchMsg, 1, index * 30);
     }
     _previous(index) {
+        if(index == 0) return ;
         this.props.searchAction(this.props.searchReducer.searchMsg, 1, (index - 1) * 30);
     }
     _next(index) {
+        if(index == this.length - 1) return ;
         this.props.searchAction(this.props.searchReducer.searchMsg, 1, (index + 1) * 30);
     }
     componentWillReceiveProps(nextProps) {

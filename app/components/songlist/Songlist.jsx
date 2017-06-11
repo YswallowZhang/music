@@ -18,11 +18,12 @@ export default class Songlist extends Component {
         return min + ':' + second;
     }
     _songPlay(song) {
-        this.props.actions.songChange(song);
+        this.props.songChange(song);
     }
     _songAdd(song) {
-        this.props.actions.addSong(song);
+        this.props.addSong(song);
     }
+    
     render() {
        let bgcolor;
         return (
@@ -36,13 +37,13 @@ export default class Songlist extends Component {
                         }
                         return (
                             <div className={styles.each} key={index} style={{backgroundColor:bgcolor,border:'1px solid' + bgcolor }}>
-                                <div className={styles.songPlay} onClick={e => {this._songPlay(item)}}><a href=""></a></div>
+                                <div className={styles.songPlay}><a href="javascript:void(0)" onClick={e => {this._songPlay(item)}}>wewe</a></div>
                                 <div className={styles.songName}><a href="">{item.name}</a></div>
                                 <div className={styles.songFour}>
-                                    <a href="" title="添加到播放列表"><img src="./app/components/songlist/images/add.png" alt=""/></a>
-                                    <a href=""></a>
-                                    <a href=""></a>
-                                    <a href=""></a>
+                                    <a href="javascript:void(0)" title="添加到播放列表"><img src="./app/components/songlist/images/add.png" alt=""/></a>
+                                    <a href="javascript:void(0)"></a>
+                                    <a href="javascript:void(0)"></a>
+                                    <a href="javascript:void(0)"></a>
                                 </div>
                                 <div className={styles.songer}><a href="">{item.ar[0].name}</a></div>
                                 <div className={styles.songAlbum}><a href="">《{item.al.name}》</a></div>

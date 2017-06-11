@@ -43,7 +43,6 @@ export default class SearchResult extends Component {
             <div className={styles.box}>
                 <div className={styles.number}>
                     <span>搜索"{this.props.search.searchMsg}"</span>
-                    {console.log(this.props.search)}
                     <span>查询到<em>{this.props.search.responseMsg.songCount}</em>条结果</span>
                 </div>
                 <ul className={styles.ulbar}>
@@ -58,7 +57,7 @@ export default class SearchResult extends Component {
                 </ul>
                 <Songlist 
                     data={this.props.search.responseMsg.songs} 
-                    changeSong={this.props.actions.changeSong}
+                    songChange={this.props.actions.songChange}
                     addSong={this.props.actions.addSong} 
                 />
                 <Songbar

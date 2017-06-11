@@ -110,7 +110,7 @@ export default function song(state, action) {
             return newState
         //添加到播放列表
         case "ADD":
-            if(isExist(action.payload, state.songlist)) {
+            if(isExit(action.payload, state.songlist)) {
                 return state;
             }
             let songlist = [...newState.songlist.slice(0), action.payload];

@@ -51,12 +51,12 @@ class App extends Component {
         const {actions} = this.props;
         return (
             <div className='app'>           
-                <Header {...this.props}/>
-                <Player {...this.props}/> 
+                <Header {...this.props} />
+                <Player {...this.props} /> 
                 <Route path="/search" render={() => (
                     <div>
-                        <SearchBar {...this.props}/>
-                        <SearchResult {...this.props}/>
+                        <SearchBar {...this.props} />
+                        <SearchResult {...this.props} />
                     </div>
                 )} 
                 />

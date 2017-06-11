@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import styles from "./player.css";
-
+import {Tool} from "../../config/Tool.jsx";
 export default class Player extends Component {
     constructor(props) {
         super(props);
@@ -11,10 +11,10 @@ export default class Player extends Component {
             lockImg: "unlock",
             duration: 0,//音频长度以秒计
             buffered: 0,//缓冲范围
-            source: "cd",//歌曲资源
-            picUrl: "./app/song/images/hehe.jpg",//歌曲图片地址
-            songName: "成都",//歌曲的名字
-            artists:"赵雷",//歌手
+            source: "",//歌曲资源
+            picUrl: "",//歌曲图片地址
+            songName: "",//歌曲的名字
+            artists:"",//歌手
         }
     }
     componentDidMount() {
@@ -158,20 +158,11 @@ export default class Player extends Component {
         this.props.actions.songMode()
     }
 
-    // isObjectValueEqual(a, b) {
-    //     console.log(a["album"]["id"], b["album"]["id"]);
-    //     if(a["album"]["id"] == b["album"]["id"]) {
-    //         console.log("id", true)
-    //         return true
-    //     } else {
-    //         console.log("id", false)
-    //         return false
-    //     }
-    // }
     componentWillReceiveProps(nextProps) {
         let self = this;
         const {song} = this.props;
         const nextIndex = nextProps.song.currentSongIndex;
+        console.log(nextIndex)
         if(nextProps.lock.islock && this.props.lock.islock != nextProps.lock.islock) {
             this.refs.player.style.bottom = "0px"
         }
@@ -191,18 +182,25 @@ export default class Player extends Component {
                 playImg: "stopInfo",//暂停的图片    
             })
         }
-
         if(nextProps.song.songlist.length > 0) {
-            if(!is(fromJS(nextProps.song.songlist[nextIndex]), fromJS(song.songlist[song.currentSongIndex]))) {
-                this.setState({
-                    source: nextProps.song.songlist[nextIndex]["album"]["id"],
-                    picUrl: nextProps.song.songlist[nextIndex]["album"]["picUrl"],
-                    artists: nextProps.song.songlist[nextIndex]["artists"][0]["name"],
-                    songName: nextProps.song.songlist[nextIndex]["album"]["name"],
-                    currentTime: 0
-                })
-                this.autoplay = true;
-            }
+            
+            this.setState({
+                picUrl: nextProps.song.songlist[nextIndex].al.picUrl,
+                artists: nextProps.song.songlist[nextIndex].ar[0].name,
+                songName: nextProps.song.songlist[nextIndex].name,
+                currentTime: 0
+            })
+            this.autoplay = true;
+            Tool.getSongUrl(nextProps.song.songlist[nextProps.song.currentSongIndex], data => {
+                if (!data.url) {
+                    self.props.actions.songNext();
+                }
+                if (data.id == nextProps.song.songlist[nextProps.song.currentSongIndex].id) {
+                    self.setState({
+                        source: data.url,
+                    });
+                }
+            });
         }    
     }
     // shouldComponentUpdate(nextProps, nextState) {
@@ -217,14 +215,12 @@ export default class Player extends Component {
         const self = this;
         return (
             <div className={styles.Player} ref="player" onMouseEnter={ev => this._inFooter()} onMouseLeave={ ev => this._outFooter()}> 
-                {/*{this.props.data.map(function(item, index) {
-                    return <a key={index} onClick={ev => self.props.actions.songChange(item)}>{item["album"]["name"]}</a>
-                })}*/}
+                
                 <div className={styles.lock} >
                     <div className={styles.lockImage} onClick={ ev => this._isLock()} data-action={this.state.lockImg}></div>
                 </div>
                 <div className={styles.blank} >
-<audio ref="audio" src={'app/song/' + this.state.source + '.mp3'} controls="controls" className={styles.audio}></audio>
+<audio ref="audio" src={this.state.source} controls="controls" className={styles.audio}></audio>
                 </div>
                 <div className={styles.centerPlayer}>
                     <div className={styles.buttons}>

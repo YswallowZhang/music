@@ -124,6 +124,20 @@ app.post('/search', function(req, res) {
 	createWebAPIRequest('/weapi/cloudsearch/get/web', data, cookie, res)
 	
 })
+
+//单曲播放地址
+app.post('/music/url', function(req, res) {
+	var id = parseInt(req.query.id);
+	var br = parseInt(req.query.br);
+	var data = {
+		"ids": [id],
+		"br": br,
+		"csrf_token": ""
+	};
+	var cookie = req.get('Cookie') ? req.get('Cookie') : (req.query.cookie ? req.query.cookie : '');
+	createWebAPIRequest('/weapi/song/enhance/player/url', data, cookie, res)
+});
+
 app.get('*', function (request, response){
   response.sendFile(path.resolve(__dirname, 'index.html'))
 })

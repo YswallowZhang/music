@@ -19,29 +19,7 @@ export const songPause = (id) => {
         payload: id
     }
 }
-//循环列表、单曲循环、随机循环
-export const songMode = () => {
-    return {
-        type:"SONG",
-        state:'MODE_CHANGE'
-    }
-}
-//更换歌单类的歌
-export const songChange = (song) => {
-    return {
-        type: "SONG",
-        state: "SONG_CHANGE",
-        payload:song
-    }
-}
- // 更换播放列表的歌
-export const playList= (id) => {
-    return {
-        type: "SONG",
-        state: "PLAY_LIST",
-        payload: id
-    }
-}
+
 //下一首
 export const songNext = () => {
     return {
@@ -131,12 +109,11 @@ export const startSearch = (msg, offset) => {
         type:"SEARCH",
         state:"START",
         payload: msg,
-        offset:offset / 30
+        offset:offset
     }
 }  
 //搜索结果
 export const finishSearch = (res, offset) => {
-    console.log(1)
     return {
         type:"SEARCH",
         state:"FINISH",
@@ -167,7 +144,35 @@ export const search = (keywords, type, offset) => {
     };
 }
 
-
+//循环列表、单曲循环、随机循环
+export const songMode = () => {
+    return {
+        type:"SONG",
+        state:'MODE_CHANGE'
+    }
+}
+//更换歌单类的歌
+export const songChange = (song) => {
+    
+    return {
+        type: "SONG",
+        state: "SONG_CHANGE",
+        payload:song
+    }
+}
+ // 更换播放列表的歌
+export const playList= (id) => {
+    return {
+        type: "SONG",
+        state: "PLAY_LIST",
+        payload: id
+    }
+}
+//添加到播放列表
 export function addSong(song) {
-  return { type: 'SONG', state: 'ADD', payload: song}
+  return { 
+      type: 'SONG', 
+      state: 'ADD', 
+      payload: song
+    }
 }

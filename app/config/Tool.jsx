@@ -36,14 +36,14 @@ const sendRequest = (path, res, rej) => {
         //     console.log(err)
         //     reject(err)
         // })  
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("POST", 'http://localhost:3838/' + path, true);
         xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
         xhr.send();
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
-                let jsonData = xhr.responseText;
-                resolve(JSON.parse(jsonData).result)
+                let [flag, jsonData] = res(JSON.parse(xhr.responseText));
+                resolve(jsonData)
             }
         }
     })
@@ -52,7 +52,31 @@ const sendRequest = (path, res, rej) => {
 
 Tool.Search = (keywords, type, offset) => {
     return sendRequest(
-      'search/?keywords=' + keywords + '&type=' + type + '&limit=30&offset=' + offset)
+      'search/?keywords=' + keywords + '&type=' + type + '&limit=30&offset=' + offset,
+      json => {
+          return [true, json.result]
+      })
 }
 
-
+// id --> mp3url
+Tool.getSongUrl = (song, callback) => {
+    let id = song.id, br;
+    if (song.h) {
+        br = song.h.br;
+    } else if (song.m) {
+        br = song.m.br;
+    } else if (song.l) {
+        br = song.l.br;
+    }
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", 'http://localhost:3838/music/url?id=' + id + '&br=' + br, true);
+    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
+            let jsonData = xhr.responseText;
+            callback(JSON.parse(jsonData));
+        }
+    }
+  
+}

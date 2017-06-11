@@ -154,6 +154,7 @@ i {
     text-shadow: 0 1px 0 #121212;
     float: left;
     margin-left: 14px;
+    margin-top: -4px;
 }
 .alltime {
     color:#797979;
