@@ -49,7 +49,7 @@ const sendRequest = (path, res, rej) => {
     })
 }
 
-
+//搜索功能
 Tool.Search = (keywords, type, offset) => {
     return sendRequest(
       'search/?keywords=' + keywords + '&type=' + type + '&limit=30&offset=' + offset,
@@ -68,6 +68,7 @@ Tool.getSongUrl = (song, callback) => {
     } else if (song.l) {
         br = song.l.br;
     }
+    
     let xhr = new XMLHttpRequest();
     xhr.open("POST", 'http://localhost:3838/music/url?id=' + id + '&br=' + br, true);
     xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
@@ -75,7 +76,8 @@ Tool.getSongUrl = (song, callback) => {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
             let jsonData = xhr.responseText;
-            callback(JSON.parse(jsonData));
+            console.log(JSON.parse(jsonData).data[0])
+            callback(JSON.parse(jsonData).data[0]);
         }
     }
   

@@ -18,13 +18,15 @@ export default class Player extends Component {
         }
     }
     componentDidMount() {
-        // console.log(this.props)
         let self = this;
         //正在获取媒体数据
         this.refs.audio.addEventListener('progress', function(e) {
-            self.setState({
-                buffered: e.target.buffered.end(e.target.buffered.length - 1)
-            });
+            if(e.target.buffered.length > 0) {
+                self.setState({
+                    buffered: e.target.buffered.end(e.target.buffered.length - 1)
+                });
+            }
+            
         })
         //能够播放，播放需要缓冲
         this.refs.audio.addEventListener('canplay', function() {
@@ -162,45 +164,54 @@ export default class Player extends Component {
         let self = this;
         const {song} = this.props;
         const nextIndex = nextProps.song.currentSongIndex;
-        console.log(nextIndex)
+        const lastlist = song.songlist;
         if(nextProps.lock.islock && this.props.lock.islock != nextProps.lock.islock) {
+            console.log(1)
             this.refs.player.style.bottom = "0px"
         }
 
-        if(nextProps.player.isplay) {
-            setTimeout(function(){
+        if(nextProps.player.isplay && this.props.player.isplay == false) {
+            // setTimeout(function(){
+                console.log(2)
                 self.refs.audio.play();
-            }, 100)
+            // }, 100)
             this.setState({
                 playImg: "startInfo",//开始的图片    
             })
-        } else if(!nextProps.player.isplay){
-            setTimeout(function(){
+        } else if(!nextProps.player.isplay && this.props.player.isplay == true){
+            // setTimeout(function(){
                 self.refs.audio.pause();
-            }, 100)
+            // }, 100)
             this.setState({
                 playImg: "stopInfo",//暂停的图片    
             })
         }
         if(nextProps.song.songlist.length > 0) {
+            console.log(3)
+            if(lastlist.length == 0 || nextProps.song.songlist[nextIndex].id != song.songlist[song.currentSongIndex].id) {
+                console.log(4)
+                this.setState({
+                    picUrl: nextProps.song.songlist[nextIndex].al.picUrl,
+                    artists: nextProps.song.songlist[nextIndex].ar[0].name,
+                    songName: nextProps.song.songlist[nextIndex].name,
+                    currentTime: 0
+                })
+                self.props.actions.songPause();
+                Tool.getSongUrl(nextProps.song.songlist[nextProps.song.currentSongIndex], data => {
+                    console.log("player" + data)
+                    if (!data.url) {
+                        self.props.actions.songNext();
+                    }
+                    if (data.id == nextProps.song.songlist[nextProps.song.currentSongIndex].id) {
+                        self.setState({
+                            source: data.url,
+                        });
+                    }
+                });
+            }
             
-            this.setState({
-                picUrl: nextProps.song.songlist[nextIndex].al.picUrl,
-                artists: nextProps.song.songlist[nextIndex].ar[0].name,
-                songName: nextProps.song.songlist[nextIndex].name,
-                currentTime: 0
-            })
-            this.autoplay = true;
-            Tool.getSongUrl(nextProps.song.songlist[nextProps.song.currentSongIndex], data => {
-                if (!data.url) {
-                    self.props.actions.songNext();
-                }
-                if (data.id == nextProps.song.songlist[nextProps.song.currentSongIndex].id) {
-                    self.setState({
-                        source: data.url,
-                    });
-                }
-            });
+            
+            
         }    
     }
     // shouldComponentUpdate(nextProps, nextState) {
@@ -208,8 +219,10 @@ export default class Player extends Component {
     // }
     
     componentDidUpdate(props, state) {
-        
-        
+        // update audio
+        if (state.source !== this.state.source) {
+            this.autoplay = true;
+        }
     }
     render() {
         const self = this;
