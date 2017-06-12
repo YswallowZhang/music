@@ -76,7 +76,6 @@ Tool.getSongUrl = (song, callback) => {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
             let jsonData = xhr.responseText;
-            console.log(JSON.parse(jsonData).data[0])
             callback(JSON.parse(jsonData).data[0]);
         }
     }

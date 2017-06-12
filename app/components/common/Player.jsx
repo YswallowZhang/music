@@ -5,6 +5,7 @@ export default class Player extends Component {
     constructor(props) {
         super(props);
         this.autoplay = false;
+        this.buffer = true;
         this.state = {
             currentTime: 0,//当前播放到的时间
             playImg: "stopInfo",//开始暂停的图片
@@ -25,15 +26,13 @@ export default class Player extends Component {
                 self.setState({
                     buffered: e.target.buffered.end(e.target.buffered.length - 1)
                 });
-            }
-            
+            }    
         })
         //能够播放，播放需要缓冲
         this.refs.audio.addEventListener('canplay', function() {
-            console.log("autoplay", self.autoplay)
+            console.log("canplay")
             if(self.autoplay) {
                 self.props.actions.songPlay();
-                console.log("songplay",self.props.player.isplay)
                 self.autoplay = false;
             }
         })
@@ -55,9 +54,6 @@ export default class Player extends Component {
         this.refs.audio.addEventListener('ended', function() {
             self.props.actions.songNext();
             self.props.actions.songPause();
-            self.setState({
-                currentTime: 0
-            });
         })
         //浏览器停止请求数据
         this.refs.audio.addEventListener('seeked', function() {
@@ -121,6 +117,12 @@ export default class Player extends Component {
     //上一首
     _previous() {
         this.props.actions.songPrevious();
+        this.buffer = false
+        // this.setState({
+        //     source: "",
+        //     currentTime:0,
+        //     buffered:0
+        // });
     }
     //停止or开始
     _stopOrstart() {
@@ -128,7 +130,6 @@ export default class Player extends Component {
             this.props.actions.playList(0);
         }
         if(this.props.player.isplay) {
-            console.log("暂停", )
             this.props.actions.songPause();
         } else {
             this.props.actions.songPlay();
@@ -137,6 +138,12 @@ export default class Player extends Component {
     //下一首
     _next() {
         this.props.actions.songNext();
+        this.buffer = false
+        // this.setState({
+        //     source: "",
+        //     currentTime:0,
+        //     buffered:0
+        // });
     }
 
     //是否隐藏
@@ -165,14 +172,13 @@ export default class Player extends Component {
         const {song} = this.props;
         const nextIndex = nextProps.song.currentSongIndex;
         const lastlist = song.songlist;
+        
         if(nextProps.lock.islock && this.props.lock.islock != nextProps.lock.islock) {
-            console.log(1)
             this.refs.player.style.bottom = "0px"
         }
 
         if(nextProps.player.isplay && this.props.player.isplay == false) {
             // setTimeout(function(){
-                console.log(2)
                 self.refs.audio.play();
             // }, 100)
             this.setState({
@@ -187,31 +193,32 @@ export default class Player extends Component {
             })
         }
         if(nextProps.song.songlist.length > 0) {
-            console.log(3)
+            
             if(lastlist.length == 0 || nextProps.song.songlist[nextIndex].id != song.songlist[song.currentSongIndex].id) {
-                console.log(4)
+                console.log("换歌换歌")
                 this.setState({
                     picUrl: nextProps.song.songlist[nextIndex].al.picUrl,
                     artists: nextProps.song.songlist[nextIndex].ar[0].name,
                     songName: nextProps.song.songlist[nextIndex].name,
-                    currentTime: 0
+                    currentTime: 0,
+                    buffered:0,
+                    source:"",
+                    duration:0
                 })
-                self.props.actions.songPause();
-                Tool.getSongUrl(nextProps.song.songlist[nextProps.song.currentSongIndex], data => {
-                    console.log("player" + data)
+                
+                Tool.getSongUrl(nextProps.song.songlist[nextIndex], data => {
                     if (!data.url) {
                         self.props.actions.songNext();
                     }
-                    if (data.id == nextProps.song.songlist[nextProps.song.currentSongIndex].id) {
+                    if (data.id == nextProps.song.songlist[nextIndex].id) {
                         self.setState({
                             source: data.url,
                         });
                     }
                 });
+                self.props.actions.songPause();
+
             }
-            
-            
-            
         }    
     }
     // shouldComponentUpdate(nextProps, nextState) {
@@ -255,15 +262,15 @@ export default class Player extends Component {
                             <div className={styles.barBox}>
                                 <div className={styles.buffer}
                                 style={{
-                                    width: String(this.state.buffered / this.state.duration * 100) + '%'
+                                    width: String(this.state.buffered / (this.state.duration ? this.state.duration: 0.00001) * 100) + '%'
                                 }}
                                 ></div>
                                 <div className={styles.bar}
                                 style={{
-                                    width: String(this.state.currentTime / this.state.duration * 100) + '%'
+                                    width: String(this.state.currentTime / (this.state.duration ? this.state.duration: 0.00001) * 100) + '%'
                                 }}
                                 ></div>
-                                <img src="./app/components/common/images/circle.png" alt="" className={styles.circle} style={{left: String(this.state.currentTime / this.state.duration * 100)+ '%'}} ref="circle" />
+                                <img src="./app/components/common/images/circle.png" alt="" className={styles.circle} style={{left: String(this.state.currentTime / (this.state.duration ? this.state.duration: 0.00001) * 100)+ '%'}} ref="circle" />
                             </div>
                             <span className={styles.time}><i className={styles.curtime}>{this._secTotime(this.state.currentTime)}</i><i className={styles.alltime}> / {this._secTotime(this.state.duration)}</i></span>
                         </div>
