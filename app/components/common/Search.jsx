@@ -3,6 +3,7 @@ import styles from './search.css';
 import SearchBar from '../search/SearchBar.jsx';
 import SearchResult from '../search/SearchResult.jsx';
 import createHistory from 'history/createHashHistory';
+// import createHistory from 'history/createBrowserHistory'
 
 const history = createHistory();
 
@@ -10,11 +11,23 @@ export default class Search extends Component {
     constructor(props) {
         super(props);
     }
+    // componentDidMount() {
+    //     window.onpopstate = (e) => {
+    //         console.log(e)
+    //     }
+    // }
     _keyDown(e) {
         if(e.which == 13) {
             this.props.actions.search(this.refs.search.value, 1, 0); 
-            history.push('search/?keywords=' + encodeURI(this.refs.search.value) + '&type=1');
-            
+            history.push({
+                pathname: '/search',
+                search: '?keywords=' + encodeURI(this.refs.search.value) + '&type=1',
+                state: {
+                    type:1,
+                    keywords:this.refs.search.value,
+                    offset:0
+                }
+            })
         }
     }
 

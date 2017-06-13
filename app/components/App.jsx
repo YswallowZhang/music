@@ -47,16 +47,22 @@ class App extends Component {
     constructor(props) {
         super(props);  
     }
+    componentDidMount() {
+        window.onpopstate = (e) => {
+            console.log(e)
+        }
+    }
+    
     render() { 
         const {actions} = this.props;
         return (
             <div className='app'>           
-                <Header {...this.props} />
-                <Player {...this.props} /> 
+                <Header {...this.props}/>
+                <Player {...this.props}/> 
                 <Route path="/search" render={() => (
                     <div>
-                        <SearchBar {...this.props} />
-                        <SearchResult {...this.props} />
+                        <SearchBar {...this.props}/>
+                        <SearchResult {...this.props}/>
                     </div>
                 )} 
                 />

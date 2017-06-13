@@ -139,11 +139,6 @@ export default class Player extends Component {
     _next() {
         this.props.actions.songNext();
         this.buffer = false
-        // this.setState({
-        //     source: "",
-        //     currentTime:0,
-        //     buffered:0
-        // });
     }
 
     //是否隐藏
