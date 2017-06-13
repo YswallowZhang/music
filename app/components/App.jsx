@@ -59,12 +59,12 @@ class App extends Component {
             <div className='app'>           
                 <Header {...this.props}/>
                 <Player {...this.props}/> 
-                <Route path="/search" render={() => (
-                    <div>
+                <Route path="/search" render={() => 
+                    (<div>
                         <SearchBar {...this.props}/>
                         <SearchResult {...this.props}/>
-                    </div>
-                )} 
+                    </div>)
+                } 
                 />
             </div>
         )

@@ -6,16 +6,13 @@ import createHistory from 'history/createHashHistory';
 // import createHistory from 'history/createBrowserHistory'
 
 const history = createHistory();
-
+history.listen(location => {
+    console.log(location)
+})
 export default class Search extends Component {
     constructor(props) {
         super(props);
     }
-    // componentDidMount() {
-    //     window.onpopstate = (e) => {
-    //         console.log(e)
-    //     }
-    // }
     _keyDown(e) {
         if(e.which == 13) {
             this.props.actions.search(this.refs.search.value, 1, 0); 

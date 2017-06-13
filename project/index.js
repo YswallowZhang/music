@@ -3535,6 +3535,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // import createHistory from 'history/createBrowserHistory'
 
 var history = (0, _createHashHistory2.default)();
+history.listen(function (location) {});
 
 var SearchBar = function (_Component) {
     _inherits(SearchBar, _Component);
@@ -3546,18 +3547,10 @@ var SearchBar = function (_Component) {
     }
 
     _createClass(SearchBar, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            window.onpopstate = function (e) {
-                console.log(e
-                // this.props.actions.search(e.state.keywords, e.state.type, e.state.offset)
-                );
-            };
-        }
-    }, {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
             this.refs.seain.value = nextProps.search.searchMsg;
+            console.log(history.location);
         }
     }, {
         key: '_keyDown',
@@ -3581,7 +3574,6 @@ var SearchBar = function (_Component) {
         value: function _submit() {
             if (!this.refs.seain.value) return;
             this.props.actions.search(this.refs.seain.value, 1, 0);
-            // history.push('/search/?keywords=' + encodeURI(this.refs.seain.value) + '&type=1');
             history.push({
                 pathname: '/search',
                 search: '?keywords=' + encodeURI(this.refs.seain.value) + '&type=1',
@@ -3591,7 +3583,6 @@ var SearchBar = function (_Component) {
                     offset: 0
                 }
             });
-            console.log(history);
         }
     }, {
         key: 'render',
@@ -4491,6 +4482,11 @@ var SearchResult = function (_Component) {
                 null,
                 '22'
             );
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps() {
+            console.log(233);
         }
     }, {
         key: 'render',
@@ -14908,6 +14904,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // import createHistory from 'history/createBrowserHistory'
 
 var history = (0, _createHashHistory2.default)();
+history.listen(function (location) {
+    console.log(location);
+});
 
 var Search = function (_Component) {
     _inherits(Search, _Component);
@@ -14917,12 +14916,6 @@ var Search = function (_Component) {
 
         return _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
     }
-    // componentDidMount() {
-    //     window.onpopstate = (e) => {
-    //         console.log(e)
-    //     }
-    // }
-
 
     _createClass(Search, [{
         key: '_keyDown',

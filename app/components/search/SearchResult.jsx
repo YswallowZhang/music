@@ -73,6 +73,9 @@ export default class SearchResult extends Component {
     renderError() {
         return <div>22</div>
     }
+    componentWillReceiveProps() {
+        console.log(233)
+    }
 
     render() {
         if(this.props.search.searchState == "START") {

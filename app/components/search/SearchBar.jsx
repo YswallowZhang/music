@@ -3,20 +3,17 @@ import createHistory from 'history/createHashHistory';
 // import createHistory from 'history/createBrowserHistory'
 
 const history = createHistory();
-
+history.listen(location => {
+    
+})
 import styles from './searchbar.css';
 export default class SearchBar extends Component {
     constructor(props) {
         super(props);
     }
-    componentDidMount() {
-        window.onpopstate = (e) => {
-            console.log(e)
-            // this.props.actions.search(e.state.keywords, e.state.type, e.state.offset)
-        }
-    }
     componentWillReceiveProps(nextProps) {
         this.refs.seain.value = nextProps.search.searchMsg;
+        console.log(history.location)
     }
 
     _keyDown(e) {
@@ -37,7 +34,6 @@ export default class SearchBar extends Component {
     _submit() {
         if(! this.refs.seain.value) return
         this.props.actions.search(this.refs.seain.value, 1, 0);
-        // history.push('/search/?keywords=' + encodeURI(this.refs.seain.value) + '&type=1');
         history.push({
             pathname: '/search',
             search: '?keywords=' + encodeURI(this.refs.seain.value) + '&type=1',
@@ -47,7 +43,6 @@ export default class SearchBar extends Component {
                 offset:0
             }
         })
-        console.log(history)
     }
 
     render() {
