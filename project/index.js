@@ -3532,8 +3532,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import createHistory from 'history/createBrowserHistory'
-
 var history = (0, _createHashHistory2.default)();
 history.listen(function (location) {});
 
@@ -3550,7 +3548,6 @@ var SearchBar = function (_Component) {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
             this.refs.seain.value = nextProps.search.searchMsg;
-            console.log(history.location);
         }
     }, {
         key: '_keyDown',
@@ -3559,14 +3556,13 @@ var SearchBar = function (_Component) {
                 this.props.actions.search(this.refs.seain.value, 1, 0);
                 history.push({
                     pathname: '/search',
-                    search: '?keywords=' + encodeURI(this.refs.seain.value) + '&type=1',
+                    search: '?keywords=' + encodeURIComponent(this.refs.seain.value) + '&type=1',
                     state: {
                         type: 1,
                         keywords: this.refs.seain.value,
                         offset: 0
                     }
                 });
-                console.log(history);
             }
         }
     }, {
@@ -3576,7 +3572,7 @@ var SearchBar = function (_Component) {
             this.props.actions.search(this.refs.seain.value, 1, 0);
             history.push({
                 pathname: '/search',
-                search: '?keywords=' + encodeURI(this.refs.seain.value) + '&type=1',
+                search: '?keywords=' + encodeURIComponent(this.refs.seain.value) + '&type=1',
                 state: {
                     type: 1,
                     keywords: this.refs.seain.value,
@@ -4482,11 +4478,6 @@ var SearchResult = function (_Component) {
                 null,
                 '22'
             );
-        }
-    }, {
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps() {
-            console.log(233);
         }
     }, {
         key: 'render',
@@ -8795,6 +8786,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// import createHistory from 'history/createHashHistory';
+// const history = createHistory();
+// history.listen(location => {
+
+// })
 //state.xx是reducer给的,将state映射到 UI 组件的参数（props)
 var mapStateToProps = function mapStateToProps(state) {
     return {
@@ -8822,6 +8818,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 //如果你在constructor中要使用this.props,就必须给super加参数：super(props)；
 //（无论有没有constructor，在render中this.props都是可以使用的，这是React自动附带的；）
 //如果没用到constructor,是可以不写的
+var lastLocation = void 0,
+    keywords = void 0,
+    type = void 0;
 
 var App = function (_Component) {
     _inherits(App, _Component);
@@ -8833,25 +8832,32 @@ var App = function (_Component) {
     }
 
     _createClass(App, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            window.onpopstate = function (e) {
-                console.log(e);
-            };
+        key: 'searchRouter',
+        value: function searchRouter(keywords, type, offset) {
+            this.props.actions.search(keywords, type, offset);
         }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {}
     }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
-
-            var actions = this.props.actions;
 
             return _react2.default.createElement(
                 'div',
                 { className: 'app' },
                 _react2.default.createElement(_Header2.default, this.props),
                 _react2.default.createElement(_Player2.default, this.props),
-                _react2.default.createElement(_reactRouterDom.Route, { path: '/search', render: function render() {
+                _react2.default.createElement(_reactRouterDom.Route, { path: '/search', render: function render(location) {
+                        if (/\?keywords=[\s\S]+/.test(location.location.search) && lastLocation != location.location.search) {
+                            var _keywords = decodeURIComponent(location.location.search.match(/\?keywords=([\s\S]+)&/)[1]);
+                            var _type = location.location.search.match(/&type=([\s\S]+)/)[1];
+                            _this2.props.actions.search(_keywords, _type, 0);
+
+                            lastLocation = location.location.search;
+                        }
+
                         return _react2.default.createElement(
                             'div',
                             null,
@@ -14841,14 +14847,6 @@ var Player = function (_Component) {
                                 )
                             )
                         )
-                    ),
-                    _react2.default.createElement("div", { className: _player2.default.addAndshare }),
-                    _react2.default.createElement(
-                        "div",
-                        { className: _player2.default.changeCloud },
-                        _react2.default.createElement("a", { className: _player2.default.playrule, onClick: function onClick(ev) {
-                                return _this2._changeRule();
-                            } })
                     )
                 )
             );
@@ -14901,12 +14899,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import createHistory from 'history/createBrowserHistory'
-
 var history = (0, _createHashHistory2.default)();
-history.listen(function (location) {
-    console.log(location);
-});
 
 var Search = function (_Component) {
     _inherits(Search, _Component);
@@ -14924,7 +14917,7 @@ var Search = function (_Component) {
                 this.props.actions.search(this.refs.search.value, 1, 0);
                 history.push({
                     pathname: '/search',
-                    search: '?keywords=' + encodeURI(this.refs.search.value) + '&type=1',
+                    search: '?keywords=' + encodeURIComponent(this.refs.search.value) + '&type=1',
                     state: {
                         type: 1,
                         keywords: this.refs.search.value,
@@ -15143,8 +15136,7 @@ exports.default = Songbar;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.playList = exports.songChange = exports.songMode = exports.search = exports.errorSearch = exports.finishSearch = exports.startSearch = exports.unlock = exports.lock = exports.guest = exports.loggedFail = exports.loggedIn = exports.loggingIn = exports.controlVolume = exports.closePlayList = exports.showPlayList = exports.songPrevious = exports.songNext = exports.songPause = exports.songPlay = undefined;
-exports.addSong = addSong;
+exports.addSong = exports.playList = exports.songChange = exports.songMode = exports.search = exports.errorSearch = exports.finishSearch = exports.startSearch = exports.unlock = exports.lock = exports.guest = exports.loggedFail = exports.loggedIn = exports.loggingIn = exports.controlVolume = exports.closePlayList = exports.showPlayList = exports.songPrevious = exports.songNext = exports.songPause = exports.songPlay = undefined;
 
 var _isomorphicFetch = __webpack_require__(264);
 
@@ -15320,13 +15312,13 @@ var playList = exports.playList = function playList(id) {
     };
 };
 //添加到播放列表
-function addSong(song) {
+var addSong = exports.addSong = function addSong(song) {
     return {
         type: 'SONG',
         state: 'ADD',
         payload: song
     };
-}
+};
 
 /***/ }),
 /* 147 */
@@ -15339,7 +15331,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _player = __webpack_require__(149);
+var _player = __webpack_require__(150);
 
 var _player2 = _interopRequireDefault(_player);
 
@@ -15355,9 +15347,9 @@ var _search = __webpack_require__(151);
 
 var _search2 = _interopRequireDefault(_search);
 
-var _router = __webpack_require__(150);
+var _panel = __webpack_require__(149);
 
-var _router2 = _interopRequireDefault(_router);
+var _panel2 = _interopRequireDefault(_panel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15366,7 +15358,7 @@ var reducer = {
     lock: _lock2.default,
     song: _song2.default,
     search: _search2.default,
-    router: _router2.default
+    panel: _panel2.default
 };
 
 exports.default = reducer;
@@ -15410,6 +15402,40 @@ function lock(state, action) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = panel;
+function panel(state, action) {
+    if (action.type != 'PANEL') {
+        if (state) {
+            return state;
+        } else {
+            return {
+                showSongList: false
+            };
+        }
+    }
+    var newState = Object.assign({}, state);
+    switch (action.state) {
+        case 'CLOSE_LIST':
+            newState.showSongList = false;
+            return newState;
+        case 'SHOW_LIST':
+            newState.showSongList = true;
+            return newState;
+        default:
+            return newState;
+    }
+}
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 //在Reducer 文件里，return的结果(新的state)时候，
 //必须要使用Object.assign()来返回新的state,如果不使用，则页面不会跟着数据刷新
 //state中的数据不能被修改，只能通过更新state,返回新的state
@@ -15436,36 +15462,6 @@ function player(state, action) {
             return newState;
         case 'PLAYER_PLAY':
             newState.isplay = true;
-            return newState;
-        default:
-            return newState;
-    }
-}
-
-/***/ }),
-/* 150 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = router;
-function router(state, action) {
-    if (action.type != 'ROUTER') {
-        if (state) {
-            return state;
-        } else {
-            return {};
-        }
-    }
-    var newState = Object.assign({}, state);
-    switch (action.state) {
-        case 'PUSH':
-            return newState;
-        case 'POP':
             return newState;
         default:
             return newState;

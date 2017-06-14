@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import styles from "./player.css";
 import {Tool} from "../../config/Tool.jsx";
 export default class Player extends Component {
@@ -270,12 +270,8 @@ export default class Player extends Component {
                             <span className={styles.time}><i className={styles.curtime}>{this._secTotime(this.state.currentTime)}</i><i className={styles.alltime}> / {this._secTotime(this.state.duration)}</i></span>
                         </div>
                     </div>
-                    <div className={styles.addAndshare}>
+                    
 
-                    </div>
-                    <div className={styles.changeCloud}>
-                        <a className={styles.playrule} onClick={ ev => this._changeRule()}></a>
-                    </div>
                 </div>
             </div>
         ); 

@@ -3,7 +3,7 @@ import player from './player';
 import lock from './lock';
 import song from './song';
 import search from './search';
-import router from './router';
+import panel from './panel';
 
 
 const reducer = {
@@ -11,7 +11,7 @@ const reducer = {
     lock,
     song,
     search,
-    router
+    panel
 }
 
 export default reducer

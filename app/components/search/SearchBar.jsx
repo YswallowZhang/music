@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import createHistory from 'history/createHashHistory';
-// import createHistory from 'history/createBrowserHistory'
 
 const history = createHistory();
 history.listen(location => {
@@ -13,7 +12,6 @@ export default class SearchBar extends Component {
     }
     componentWillReceiveProps(nextProps) {
         this.refs.seain.value = nextProps.search.searchMsg;
-        console.log(history.location)
     }
 
     _keyDown(e) {
@@ -21,14 +19,13 @@ export default class SearchBar extends Component {
             this.props.actions.search(this.refs.seain.value, 1, 0);
             history.push({
                 pathname: '/search',
-                search: '?keywords=' + encodeURI(this.refs.seain.value) + '&type=1',
+                search: '?keywords=' + encodeURIComponent(this.refs.seain.value) + '&type=1',
                 state: {
                     type:1,
                     keywords:this.refs.seain.value,
                     offset:0
                 }
             })
-            console.log(history)
         }
     }
     _submit() {
@@ -36,7 +33,7 @@ export default class SearchBar extends Component {
         this.props.actions.search(this.refs.seain.value, 1, 0);
         history.push({
             pathname: '/search',
-            search: '?keywords=' + encodeURI(this.refs.seain.value) + '&type=1',
+            search: '?keywords=' + encodeURIComponent(this.refs.seain.value) + '&type=1',
             state: {
                 type:1,
                 keywords:this.refs.seain.value,

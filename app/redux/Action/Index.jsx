@@ -169,7 +169,7 @@ export const playList= (id) => {
     }
 }
 //添加到播放列表
-export function addSong(song) {
+export const addSong = (song) => {
   return { 
       type: 'SONG', 
       state: 'ADD', 

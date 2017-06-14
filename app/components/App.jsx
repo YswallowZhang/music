@@ -15,6 +15,11 @@ import {
   Link
 } from 'react-router-dom';
 
+// import createHistory from 'history/createHashHistory';
+// const history = createHistory();
+// history.listen(location => {
+    
+// })
 //state.xx是reducer给的,将state映射到 UI 组件的参数（props)
 const mapStateToProps = state => {
     return {
@@ -43,27 +48,37 @@ const mapDispatchToProps = dispatch => {
 //如果你在constructor中要使用this.props,就必须给super加参数：super(props)；
 //（无论有没有constructor，在render中this.props都是可以使用的，这是React自动附带的；）
 //如果没用到constructor,是可以不写的
+let lastLocation, keywords, type;
 class App extends Component {
     constructor(props) {
         super(props);  
     }
-    componentDidMount() {
-        window.onpopstate = (e) => {
-            console.log(e)
-        }
+    searchRouter(keywords, type, offset) {
+        this.props.actions.search(keywords, type, offset)
     }
-    
+    componentWillReceiveProps(nextProps) {
+
+    }
     render() { 
-        const {actions} = this.props;
         return (
             <div className='app'>           
                 <Header {...this.props}/>
                 <Player {...this.props}/> 
-                <Route path="/search" render={() => 
-                    (<div>
-                        <SearchBar {...this.props}/>
-                        <SearchResult {...this.props}/>
-                    </div>)
+                <Route path="/search" render={(location) => 
+                    {
+                        if(/\?keywords=[\s\S]+/.test(location.location.search) && lastLocation != location.location.search) {
+                            let keywords = decodeURIComponent(location.location.search.match(/\?keywords=([\s\S]+)&/)[1]);
+                            let type = location.location.search.match(/&type=([\s\S]+)/)[1];
+                            this.props.actions.search(keywords, type, 0);
+                            
+                            lastLocation = location.location.search;
+                        }
+
+                        return <div>
+                            <SearchBar {...this.props} />
+                            <SearchResult {...this.props} />
+                        </div>
+                    }
                 } 
                 />
             </div>

@@ -3,12 +3,9 @@ import styles from './search.css';
 import SearchBar from '../search/SearchBar.jsx';
 import SearchResult from '../search/SearchResult.jsx';
 import createHistory from 'history/createHashHistory';
-// import createHistory from 'history/createBrowserHistory'
 
 const history = createHistory();
-history.listen(location => {
-    console.log(location)
-})
+
 export default class Search extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +15,7 @@ export default class Search extends Component {
             this.props.actions.search(this.refs.search.value, 1, 0); 
             history.push({
                 pathname: '/search',
-                search: '?keywords=' + encodeURI(this.refs.search.value) + '&type=1',
+                search: '?keywords=' + encodeURIComponent(this.refs.search.value) + '&type=1',
                 state: {
                     type:1,
                     keywords:this.refs.search.value,
