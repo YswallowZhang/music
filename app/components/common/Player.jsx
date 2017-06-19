@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styles from "./player.css";
 import {Tool} from "../../config/Tool.jsx";
+import Volume from "./Volume.jsx";
 export default class Player extends Component {
     constructor(props) {
         super(props);
@@ -62,7 +63,7 @@ export default class Player extends Component {
         //进度条拖动
         let oldx, flag = 0, oldleft, movex, max = 493;
         this.refs.circle.addEventListener('mousedown', function(e) {
-            event.preventDefault();
+            e.preventDefault();
             flag = 1;
             oldx = e.clientX;
             oldleft = parseInt(getComputedStyle(self.refs.circle).left);      
@@ -161,7 +162,16 @@ export default class Player extends Component {
     _changeRule() {
         this.props.actions.songMode()
     }
-
+    updateVolume(volume, mute) {
+        if(mute) {
+            this.refs.audio.volume = 0
+        } else {
+            if(volume < 0.1) {
+                volume = 0;
+            }
+            this.refs.audio.volume = volume;
+        }
+    }   
     componentWillReceiveProps(nextProps) {
         let self = this;
         const {song} = this.props;
@@ -270,7 +280,7 @@ export default class Player extends Component {
                             <span className={styles.time}><i className={styles.curtime}>{this._secTotime(this.state.currentTime)}</i><i className={styles.alltime}> / {this._secTotime(this.state.duration)}</i></span>
                         </div>
                     </div>
-                    
+                    <Volume updateVolume={this.updateVolume.bind(this)} />
 
                 </div>
             </div>

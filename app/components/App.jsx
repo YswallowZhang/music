@@ -60,6 +60,7 @@ class App extends Component {
 
     }
     render() { 
+        let self = this;
         return (
             <div className='app'>           
                 <Header {...this.props}/>
@@ -69,7 +70,10 @@ class App extends Component {
                         if(/\?keywords=[\s\S]+/.test(location.location.search) && lastLocation != location.location.search) {
                             let keywords = decodeURIComponent(location.location.search.match(/\?keywords=([\s\S]+)&/)[1]);
                             let type = location.location.search.match(/&type=([\s\S]+)/)[1];
-                            this.props.actions.search(keywords, type, 0);
+                            setTimeout(function() {
+                                self.props.actions.search(keywords, type, 0);
+
+                            })
                             
                             lastLocation = location.location.search;
                         }

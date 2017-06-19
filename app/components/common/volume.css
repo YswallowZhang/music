@@ -1,0 +1,44 @@
+.volumeBox {
+    float: left;
+    cursor: pointer;
+    margin-top: 11px;
+    position: relative;
+}
+.volume {
+    width: 32px;
+    height: 32px;
+    text-align: center;
+
+}
+.img {
+    width:20px;
+    height: 20px;
+}
+.wrapBox {
+    width: 35px;
+    height: 113px;
+    background-color: #292929;
+    position: absolute;
+    top:-124px;
+    z-index: 1009;
+}
+.wrapper {
+    width:5px;
+    height:101px;
+    background-color: #191919;
+    position: absolute;
+    top:7px;
+    left: 14px;
+}
+.progress {
+    width:5px;
+    background-color: #c70c0c;
+    position: absolute;
+}
+.vocircle {
+    position: absolute;
+    top:0px;
+    left:-3.8px;
+    width:12px;
+    height: 12px;
+}
