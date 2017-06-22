@@ -12,6 +12,7 @@ export default function song(state, action) {
         }
     }
     let newState = Object.assign({}, state);
+    console.log(newState.songlist)
     switch(action.state) {
         //下一首
         case "NEXT" :
@@ -125,6 +126,13 @@ export default function song(state, action) {
             if(newState.songlist.length == 1) {
                 newState.currentSongIndex = 0;
             }
+            return newState
+        case "URL":
+            newState.songlist.forEach((item, index) => {
+                if(item.id == action.payload.id) {
+                    item.data = action.payload;
+                }
+            })
             return newState
         default: 
             return newState

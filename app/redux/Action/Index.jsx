@@ -49,13 +49,13 @@ export const closePlayList = () => {
     }
 }
 //音量大小
-export const controlVolume = (data) => {
-    return {
-        type: "VOLUME",
-        state: "VOLUME_HEIGHT",
-        payload : data
-    }
-}
+// export const controlVolume = (data) => {
+//     return {
+//         type: "VOLUME",
+//         state: "VOLUME_HEIGHT",
+//         payload : data
+//     }
+// }
 //用户正在登录
 export const loggingIn = (form) => {
     return {
@@ -176,3 +176,11 @@ export const addSong = (song) => {
       payload: song
     }
 }
+export const idUrl = (urlsong) => {
+  return { 
+      type: 'SONG', 
+      state: 'URL', 
+      payload: urlsong
+    }
+}
+

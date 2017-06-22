@@ -40,7 +40,7 @@ function createWebAPIRequest(path, data, cookie, response, method) {
 			response.status(502).send('fetch error');
 		});
 		res.setEncoding('utf8');
-		if(res.statusCode != 200) {
+		if(res.statusCode < 200 || res.statusCode > 304) {
 			createWebAPIRequest(path, data, cookie, response, method);
 			return;
 		} else {

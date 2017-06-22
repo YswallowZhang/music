@@ -9123,6 +9123,7 @@ Tool.getSongUrl = function (song, callback) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 304) {
             var jsonData = xhr.responseText;
+            console.log(jsonData);
             callback(JSON.parse(jsonData).data[0]);
         }
     };
@@ -14615,7 +14616,8 @@ var Player = function (_Component) {
                 self.props.actions.songPause();
             }
             //浏览器停止请求数据
-            );this.refs.audio.addEventListener('seeked', function () {}
+            );this.refs.audio.addEventListener('seeked', function () {});
+            this.refs.audio.addEventListener('error', function (error) {}
             //进度条拖动
             );var oldx = void 0,
                 flag = 0,
@@ -14804,6 +14806,7 @@ var Player = function (_Component) {
                             self.setState({
                                 source: data.url
                             });
+                            self.props.actions.idUrl(data);
                         }
                     });
                     self.props.actions.songPause();
@@ -15346,7 +15349,7 @@ exports.default = Songbar;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.addSong = exports.playList = exports.songChange = exports.songMode = exports.search = exports.errorSearch = exports.finishSearch = exports.startSearch = exports.unlock = exports.lock = exports.guest = exports.loggedFail = exports.loggedIn = exports.loggingIn = exports.controlVolume = exports.closePlayList = exports.showPlayList = exports.songPrevious = exports.songNext = exports.songPause = exports.songPlay = undefined;
+exports.idUrl = exports.addSong = exports.playList = exports.songChange = exports.songMode = exports.search = exports.errorSearch = exports.finishSearch = exports.startSearch = exports.unlock = exports.lock = exports.guest = exports.loggedFail = exports.loggedIn = exports.loggingIn = exports.closePlayList = exports.showPlayList = exports.songPrevious = exports.songNext = exports.songPause = exports.songPlay = undefined;
 
 var _isomorphicFetch = __webpack_require__(267);
 
@@ -15404,13 +15407,13 @@ var closePlayList = exports.closePlayList = function closePlayList() {
     };
 };
 //音量大小
-var controlVolume = exports.controlVolume = function controlVolume(data) {
-    return {
-        type: "VOLUME",
-        state: "VOLUME_HEIGHT",
-        payload: data
-    };
-};
+// export const controlVolume = (data) => {
+//     return {
+//         type: "VOLUME",
+//         state: "VOLUME_HEIGHT",
+//         payload : data
+//     }
+// }
 //用户正在登录
 var loggingIn = exports.loggingIn = function loggingIn(form) {
     return {
@@ -15527,6 +15530,13 @@ var addSong = exports.addSong = function addSong(song) {
         type: 'SONG',
         state: 'ADD',
         payload: song
+    };
+};
+var idUrl = exports.idUrl = function idUrl(urlsong) {
+    return {
+        type: 'SONG',
+        state: 'URL',
+        payload: urlsong
     };
 };
 
@@ -15715,7 +15725,6 @@ function search(state, action) {
         case 'FINISH':
             newState.responseMsg = action.payload;
             newState.offset = action.offset;
-            console.log(newState.offset);
             return newState;
         case 'ERROR':
             newState.errorMsg = action.payload;
@@ -15752,6 +15761,7 @@ function song(state, action) {
         }
     }
     var newState = Object.assign({}, state);
+    console.log(newState.songlist);
     switch (action.state) {
         //下一首
         case "NEXT":
@@ -15862,6 +15872,13 @@ function song(state, action) {
             if (newState.songlist.length == 1) {
                 newState.currentSongIndex = 0;
             }
+            return newState;
+        case "URL":
+            newState.songlist.forEach(function (item, index) {
+                if (item.id == action.payload.id) {
+                    item.data = action.payload;
+                }
+            });
             return newState;
         default:
             return newState;

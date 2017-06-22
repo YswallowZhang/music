@@ -60,6 +60,8 @@ export default class Player extends Component {
         this.refs.audio.addEventListener('seeked', function() {
 
         })
+        this.refs.audio.addEventListener('error', function(error) {
+        })
         //进度条拖动
         let oldx, flag = 0, oldleft, movex, max = 493;
         this.refs.circle.addEventListener('mousedown', function(e) {
@@ -219,7 +221,9 @@ export default class Player extends Component {
                         self.setState({
                             source: data.url,
                         });
+                        self.props.actions.idUrl(data)
                     }
+                    
                 });
                 self.props.actions.songPause();
 

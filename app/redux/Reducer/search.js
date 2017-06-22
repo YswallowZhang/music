@@ -25,7 +25,6 @@ export default function search(state, action) {
         case 'FINISH':
             newState.responseMsg =  action.payload;
             newState.offset = action.offset;
-            console.log(newState.offset)
             return newState
         case 'ERROR':
             newState.errorMsg = action.payload;
