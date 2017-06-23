@@ -1,0 +1,88 @@
+.playList {
+    width:986px;
+    height: 301px;
+    position: absolute;
+    bottom: 47.5px;
+    left:50%;
+    margin-left: -493px;
+}
+.panelHeader {
+    height: 39px;
+    width: 986px;
+    background-color: #1b1b1b;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+.panelFooter {
+    height: 260px;
+    width: 986px;
+    background-color: rgba(18, 18, 18, 0.9);
+}
+.panelTitle {
+    color: #e2e2e2;
+    position: absolute;
+    left: 25px;
+    top:0;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    line-height: 39px;
+}
+.panelBg {
+    width: 980px;
+    position: absolute;
+}
+.delete {
+    position: absolute;
+    height: 15px;
+    line-height: 15px;
+    left: 490px;
+    color: #ccc;
+    top:12px;
+}
+.collect {
+    position: absolute;
+    height: 15px;
+    line-height: 15px;
+    left: 398px;
+    color:#ccc;
+    top:12px;
+}
+.icofont {
+    float: left;
+    margin-right: 6px;
+}
+.close {
+    float: right;
+    color:#ccc;
+    margin-right: 20px;
+    line-height: 39px;
+}
+.line {
+    height: 15px;
+    position: absolute;
+    left: 480px;
+    top:15px;
+    border-left: 1px solid #000;
+    border-right: 1px solid #2c2c2c;
+}
+.listleft {
+    float: left;
+    width:553px;
+    height: 260px;
+    background-color: #121212;
+    opacity: 0.5;
+}
+.listright {
+    float: left;
+    width: 420px;
+    height: 250px;
+}
+.noContent {
+    position: absolute;
+    width: 553px;
+    height: 117px;
+    color: #aaa;
+    text-align: center;
+    margin-top: 85px;
+}

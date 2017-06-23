@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import styles from "./player.css";
 import {Tool} from "../../config/Tool.jsx";
 import Volume from "./Volume.jsx";
+import Playlist from "../songlist/Playlist.jsx";
+
 export default class Player extends Component {
     constructor(props) {
         super(props);
@@ -285,8 +287,8 @@ export default class Player extends Component {
                         </div>
                     </div>
                     <Volume updateVolume={this.updateVolume.bind(this)} />
-
                 </div>
+                <Playlist {...this.props} picUrl={this.state.picUrl} secTotime={this._secTotime}/>
             </div>
         ); 
     }
